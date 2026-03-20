@@ -1,0 +1,12 @@
+{
+  "name": "bodyritual",
+  "private": true,
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "dev": "pnpm --filter @bodyritual/mobile start",
+    "ios": "pnpm --filter @bodyritual/mobile ios",
+    "android": "pnpm --filter @bodyritual/mobile android",
+    "web": "pnpm --filter @bodyritual/mobile web",
+    "typecheck": "pnpm -r typecheck"
+  }
+}
