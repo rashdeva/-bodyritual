@@ -16,7 +16,18 @@ export async function startRitualSession(ritualId: string) {
     throw new Error("Authentication required.");
   }
 
-  const result = await startSessionForCurrentUser(session.user.id, ritualId);
+  const result = await startSessionForCurrentUser(session.user.id, { ritualId });
+  revalidatePath("/");
+  return result;
+}
+
+export async function startVideoSession(videoId: string) {
+  const session = await getAuthSession();
+  if (!session?.user?.id) {
+    throw new Error("Authentication required.");
+  }
+
+  const result = await startSessionForCurrentUser(session.user.id, { videoId });
   revalidatePath("/");
   return result;
 }

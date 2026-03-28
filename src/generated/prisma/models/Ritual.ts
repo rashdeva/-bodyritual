@@ -513,6 +513,11 @@ export type RitualScalarRelationFilter = {
   isNot?: Prisma.RitualWhereInput
 }
 
+export type RitualNullableScalarRelationFilter = {
+  is?: Prisma.RitualWhereInput | null
+  isNot?: Prisma.RitualWhereInput | null
+}
+
 export type EnumRitualTypeFieldUpdateOperationsInput = {
   set?: $Enums.RitualType
 }
@@ -551,10 +556,12 @@ export type RitualCreateNestedOneWithoutRitualSessionsInput = {
   connect?: Prisma.RitualWhereUniqueInput
 }
 
-export type RitualUpdateOneRequiredWithoutRitualSessionsNestedInput = {
+export type RitualUpdateOneWithoutRitualSessionsNestedInput = {
   create?: Prisma.XOR<Prisma.RitualCreateWithoutRitualSessionsInput, Prisma.RitualUncheckedCreateWithoutRitualSessionsInput>
   connectOrCreate?: Prisma.RitualCreateOrConnectWithoutRitualSessionsInput
   upsert?: Prisma.RitualUpsertWithoutRitualSessionsInput
+  disconnect?: Prisma.RitualWhereInput | boolean
+  delete?: Prisma.RitualWhereInput | boolean
   connect?: Prisma.RitualWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.RitualUpdateToOneWithWhereWithoutRitualSessionsInput, Prisma.RitualUpdateWithoutRitualSessionsInput>, Prisma.RitualUncheckedUpdateWithoutRitualSessionsInput>
 }

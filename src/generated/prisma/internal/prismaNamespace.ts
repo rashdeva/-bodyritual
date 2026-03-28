@@ -1229,6 +1229,7 @@ export const RitualSessionScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ritualId: 'ritualId',
+  videoId: 'videoId',
   userId: 'userId'
 } as const
 

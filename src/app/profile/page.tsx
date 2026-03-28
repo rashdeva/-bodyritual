@@ -103,7 +103,7 @@ export default async function ProfilePage() {
               <p>Фокус: {data.user.focusAreas.join(", ") || "Не выбран"}</p>
               <p>Лимит по времени: {data.user.timeBudgetMinutes ? `${data.user.timeBudgetMinutes} минут` : "Не выбран"}</p>
               <p>Ограничения: {data.user.restrictionLabel}</p>
-              <p>Всего завершённых ритуалов: {data.user.totalCompletedSessions}</p>
+              <p>Всего завершённых сессий: {data.user.totalCompletedSessions}</p>
             </div>
           </section>
 
@@ -131,7 +131,7 @@ export default async function ProfilePage() {
             </section>
 
             <section className="rounded-[2rem] border border-white/70 bg-white/76 p-6 shadow-[0_28px_90px_rgba(96,64,32,0.12)] backdrop-blur sm:p-8">
-              <p className="text-[0.72rem] uppercase tracking-[0.32em] text-stone-500">Последние сессии</p>
+              <p className="text-[0.72rem] uppercase tracking-[0.32em] text-stone-500">Последние просмотры и сессии</p>
               <div className="mt-5 space-y-3">
                 {data.recentSessions.map((session) => (
                   <article key={session.id} className="rounded-[1.5rem] border border-stone-200 bg-stone-50/70 px-4 py-4">

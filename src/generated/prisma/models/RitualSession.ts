@@ -47,6 +47,7 @@ export type RitualSessionMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   ritualId: string | null
+  videoId: string | null
   userId: string | null
 }
 
@@ -61,6 +62,7 @@ export type RitualSessionMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   ritualId: string | null
+  videoId: string | null
   userId: string | null
 }
 
@@ -75,6 +77,7 @@ export type RitualSessionCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   ritualId: number
+  videoId: number
   userId: number
   _all: number
 }
@@ -101,6 +104,7 @@ export type RitualSessionMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   ritualId?: true
+  videoId?: true
   userId?: true
 }
 
@@ -115,6 +119,7 @@ export type RitualSessionMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   ritualId?: true
+  videoId?: true
   userId?: true
 }
 
@@ -129,6 +134,7 @@ export type RitualSessionCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   ritualId?: true
+  videoId?: true
   userId?: true
   _all?: true
 }
@@ -229,7 +235,8 @@ export type RitualSessionGroupByOutputType = {
   notes: string | null
   createdAt: Date
   updatedAt: Date
-  ritualId: string
+  ritualId: string | null
+  videoId: string | null
   userId: string
   _count: RitualSessionCountAggregateOutputType | null
   _avg: RitualSessionAvgAggregateOutputType | null
@@ -266,9 +273,11 @@ export type RitualSessionWhereInput = {
   notes?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
-  ritualId?: Prisma.StringFilter<"RitualSession"> | string
+  ritualId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
+  videoId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   userId?: Prisma.StringFilter<"RitualSession"> | string
-  ritual?: Prisma.XOR<Prisma.RitualScalarRelationFilter, Prisma.RitualWhereInput>
+  ritual?: Prisma.XOR<Prisma.RitualNullableScalarRelationFilter, Prisma.RitualWhereInput> | null
+  video?: Prisma.XOR<Prisma.VideoNullableScalarRelationFilter, Prisma.VideoWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -282,9 +291,11 @@ export type RitualSessionOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  ritualId?: Prisma.SortOrder
+  ritualId?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   ritual?: Prisma.RitualOrderByWithRelationInput
+  video?: Prisma.VideoOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -301,9 +312,11 @@ export type RitualSessionWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
-  ritualId?: Prisma.StringFilter<"RitualSession"> | string
+  ritualId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
+  videoId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   userId?: Prisma.StringFilter<"RitualSession"> | string
-  ritual?: Prisma.XOR<Prisma.RitualScalarRelationFilter, Prisma.RitualWhereInput>
+  ritual?: Prisma.XOR<Prisma.RitualNullableScalarRelationFilter, Prisma.RitualWhereInput> | null
+  video?: Prisma.XOR<Prisma.VideoNullableScalarRelationFilter, Prisma.VideoWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -317,7 +330,8 @@ export type RitualSessionOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  ritualId?: Prisma.SortOrder
+  ritualId?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.RitualSessionCountOrderByAggregateInput
   _avg?: Prisma.RitualSessionAvgOrderByAggregateInput
@@ -339,7 +353,8 @@ export type RitualSessionScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"RitualSession"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RitualSession"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"RitualSession"> | Date | string
-  ritualId?: Prisma.StringWithAggregatesFilter<"RitualSession"> | string
+  ritualId?: Prisma.StringNullableWithAggregatesFilter<"RitualSession"> | string | null
+  videoId?: Prisma.StringNullableWithAggregatesFilter<"RitualSession"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"RitualSession"> | string
 }
 
@@ -353,7 +368,8 @@ export type RitualSessionCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritual: Prisma.RitualCreateNestedOneWithoutRitualSessionsInput
+  ritual?: Prisma.RitualCreateNestedOneWithoutRitualSessionsInput
+  video?: Prisma.VideoCreateNestedOneWithoutSessionsInput
   user: Prisma.UserCreateNestedOneWithoutRitualSessionsInput
 }
 
@@ -367,7 +383,8 @@ export type RitualSessionUncheckedCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritualId: string
+  ritualId?: string | null
+  videoId?: string | null
   userId: string
 }
 
@@ -381,7 +398,8 @@ export type RitualSessionUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritual?: Prisma.RitualUpdateOneRequiredWithoutRitualSessionsNestedInput
+  ritual?: Prisma.RitualUpdateOneWithoutRitualSessionsNestedInput
+  video?: Prisma.VideoUpdateOneWithoutSessionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutRitualSessionsNestedInput
 }
 
@@ -395,7 +413,8 @@ export type RitualSessionUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritualId?: Prisma.StringFieldUpdateOperationsInput | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -409,7 +428,8 @@ export type RitualSessionCreateManyInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritualId: string
+  ritualId?: string | null
+  videoId?: string | null
   userId: string
 }
 
@@ -435,7 +455,8 @@ export type RitualSessionUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritualId?: Prisma.StringFieldUpdateOperationsInput | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -460,6 +481,7 @@ export type RitualSessionCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ritualId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -479,6 +501,7 @@ export type RitualSessionMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ritualId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -493,6 +516,7 @@ export type RitualSessionMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ritualId?: Prisma.SortOrder
+  videoId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -593,6 +617,48 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type RitualSessionCreateNestedManyWithoutVideoInput = {
+  create?: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput> | Prisma.RitualSessionCreateWithoutVideoInput[] | Prisma.RitualSessionUncheckedCreateWithoutVideoInput[]
+  connectOrCreate?: Prisma.RitualSessionCreateOrConnectWithoutVideoInput | Prisma.RitualSessionCreateOrConnectWithoutVideoInput[]
+  createMany?: Prisma.RitualSessionCreateManyVideoInputEnvelope
+  connect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+}
+
+export type RitualSessionUncheckedCreateNestedManyWithoutVideoInput = {
+  create?: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput> | Prisma.RitualSessionCreateWithoutVideoInput[] | Prisma.RitualSessionUncheckedCreateWithoutVideoInput[]
+  connectOrCreate?: Prisma.RitualSessionCreateOrConnectWithoutVideoInput | Prisma.RitualSessionCreateOrConnectWithoutVideoInput[]
+  createMany?: Prisma.RitualSessionCreateManyVideoInputEnvelope
+  connect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+}
+
+export type RitualSessionUpdateManyWithoutVideoNestedInput = {
+  create?: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput> | Prisma.RitualSessionCreateWithoutVideoInput[] | Prisma.RitualSessionUncheckedCreateWithoutVideoInput[]
+  connectOrCreate?: Prisma.RitualSessionCreateOrConnectWithoutVideoInput | Prisma.RitualSessionCreateOrConnectWithoutVideoInput[]
+  upsert?: Prisma.RitualSessionUpsertWithWhereUniqueWithoutVideoInput | Prisma.RitualSessionUpsertWithWhereUniqueWithoutVideoInput[]
+  createMany?: Prisma.RitualSessionCreateManyVideoInputEnvelope
+  set?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  disconnect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  delete?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  connect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  update?: Prisma.RitualSessionUpdateWithWhereUniqueWithoutVideoInput | Prisma.RitualSessionUpdateWithWhereUniqueWithoutVideoInput[]
+  updateMany?: Prisma.RitualSessionUpdateManyWithWhereWithoutVideoInput | Prisma.RitualSessionUpdateManyWithWhereWithoutVideoInput[]
+  deleteMany?: Prisma.RitualSessionScalarWhereInput | Prisma.RitualSessionScalarWhereInput[]
+}
+
+export type RitualSessionUncheckedUpdateManyWithoutVideoNestedInput = {
+  create?: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput> | Prisma.RitualSessionCreateWithoutVideoInput[] | Prisma.RitualSessionUncheckedCreateWithoutVideoInput[]
+  connectOrCreate?: Prisma.RitualSessionCreateOrConnectWithoutVideoInput | Prisma.RitualSessionCreateOrConnectWithoutVideoInput[]
+  upsert?: Prisma.RitualSessionUpsertWithWhereUniqueWithoutVideoInput | Prisma.RitualSessionUpsertWithWhereUniqueWithoutVideoInput[]
+  createMany?: Prisma.RitualSessionCreateManyVideoInputEnvelope
+  set?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  disconnect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  delete?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  connect?: Prisma.RitualSessionWhereUniqueInput | Prisma.RitualSessionWhereUniqueInput[]
+  update?: Prisma.RitualSessionUpdateWithWhereUniqueWithoutVideoInput | Prisma.RitualSessionUpdateWithWhereUniqueWithoutVideoInput[]
+  updateMany?: Prisma.RitualSessionUpdateManyWithWhereWithoutVideoInput | Prisma.RitualSessionUpdateManyWithWhereWithoutVideoInput[]
+  deleteMany?: Prisma.RitualSessionScalarWhereInput | Prisma.RitualSessionScalarWhereInput[]
+}
+
 export type RitualSessionCreateWithoutUserInput = {
   id?: string
   status?: $Enums.RitualSessionStatus
@@ -603,7 +669,8 @@ export type RitualSessionCreateWithoutUserInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritual: Prisma.RitualCreateNestedOneWithoutRitualSessionsInput
+  ritual?: Prisma.RitualCreateNestedOneWithoutRitualSessionsInput
+  video?: Prisma.VideoCreateNestedOneWithoutSessionsInput
 }
 
 export type RitualSessionUncheckedCreateWithoutUserInput = {
@@ -616,7 +683,8 @@ export type RitualSessionUncheckedCreateWithoutUserInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritualId: string
+  ritualId?: string | null
+  videoId?: string | null
 }
 
 export type RitualSessionCreateOrConnectWithoutUserInput = {
@@ -658,7 +726,8 @@ export type RitualSessionScalarWhereInput = {
   notes?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RitualSession"> | Date | string
-  ritualId?: Prisma.StringFilter<"RitualSession"> | string
+  ritualId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
+  videoId?: Prisma.StringNullableFilter<"RitualSession"> | string | null
   userId?: Prisma.StringFilter<"RitualSession"> | string
 }
 
@@ -672,6 +741,7 @@ export type RitualSessionCreateWithoutRitualInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  video?: Prisma.VideoCreateNestedOneWithoutSessionsInput
   user: Prisma.UserCreateNestedOneWithoutRitualSessionsInput
 }
 
@@ -685,6 +755,7 @@ export type RitualSessionUncheckedCreateWithoutRitualInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  videoId?: string | null
   userId: string
 }
 
@@ -714,6 +785,60 @@ export type RitualSessionUpdateManyWithWhereWithoutRitualInput = {
   data: Prisma.XOR<Prisma.RitualSessionUpdateManyMutationInput, Prisma.RitualSessionUncheckedUpdateManyWithoutRitualInput>
 }
 
+export type RitualSessionCreateWithoutVideoInput = {
+  id?: string
+  status?: $Enums.RitualSessionStatus
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
+  completedPercent?: number
+  earnedXp?: number
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ritual?: Prisma.RitualCreateNestedOneWithoutRitualSessionsInput
+  user: Prisma.UserCreateNestedOneWithoutRitualSessionsInput
+}
+
+export type RitualSessionUncheckedCreateWithoutVideoInput = {
+  id?: string
+  status?: $Enums.RitualSessionStatus
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
+  completedPercent?: number
+  earnedXp?: number
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ritualId?: string | null
+  userId: string
+}
+
+export type RitualSessionCreateOrConnectWithoutVideoInput = {
+  where: Prisma.RitualSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput>
+}
+
+export type RitualSessionCreateManyVideoInputEnvelope = {
+  data: Prisma.RitualSessionCreateManyVideoInput | Prisma.RitualSessionCreateManyVideoInput[]
+  skipDuplicates?: boolean
+}
+
+export type RitualSessionUpsertWithWhereUniqueWithoutVideoInput = {
+  where: Prisma.RitualSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.RitualSessionUpdateWithoutVideoInput, Prisma.RitualSessionUncheckedUpdateWithoutVideoInput>
+  create: Prisma.XOR<Prisma.RitualSessionCreateWithoutVideoInput, Prisma.RitualSessionUncheckedCreateWithoutVideoInput>
+}
+
+export type RitualSessionUpdateWithWhereUniqueWithoutVideoInput = {
+  where: Prisma.RitualSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.RitualSessionUpdateWithoutVideoInput, Prisma.RitualSessionUncheckedUpdateWithoutVideoInput>
+}
+
+export type RitualSessionUpdateManyWithWhereWithoutVideoInput = {
+  where: Prisma.RitualSessionScalarWhereInput
+  data: Prisma.XOR<Prisma.RitualSessionUpdateManyMutationInput, Prisma.RitualSessionUncheckedUpdateManyWithoutVideoInput>
+}
+
 export type RitualSessionCreateManyUserInput = {
   id?: string
   status?: $Enums.RitualSessionStatus
@@ -724,7 +849,8 @@ export type RitualSessionCreateManyUserInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ritualId: string
+  ritualId?: string | null
+  videoId?: string | null
 }
 
 export type RitualSessionUpdateWithoutUserInput = {
@@ -737,7 +863,8 @@ export type RitualSessionUpdateWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritual?: Prisma.RitualUpdateOneRequiredWithoutRitualSessionsNestedInput
+  ritual?: Prisma.RitualUpdateOneWithoutRitualSessionsNestedInput
+  video?: Prisma.VideoUpdateOneWithoutSessionsNestedInput
 }
 
 export type RitualSessionUncheckedUpdateWithoutUserInput = {
@@ -750,7 +877,8 @@ export type RitualSessionUncheckedUpdateWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritualId?: Prisma.StringFieldUpdateOperationsInput | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RitualSessionUncheckedUpdateManyWithoutUserInput = {
@@ -763,7 +891,8 @@ export type RitualSessionUncheckedUpdateManyWithoutUserInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ritualId?: Prisma.StringFieldUpdateOperationsInput | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RitualSessionCreateManyRitualInput = {
@@ -776,6 +905,7 @@ export type RitualSessionCreateManyRitualInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  videoId?: string | null
   userId: string
 }
 
@@ -789,6 +919,7 @@ export type RitualSessionUpdateWithoutRitualInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  video?: Prisma.VideoUpdateOneWithoutSessionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutRitualSessionsNestedInput
 }
 
@@ -802,6 +933,7 @@ export type RitualSessionUncheckedUpdateWithoutRitualInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -815,6 +947,63 @@ export type RitualSessionUncheckedUpdateManyWithoutRitualInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type RitualSessionCreateManyVideoInput = {
+  id?: string
+  status?: $Enums.RitualSessionStatus
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
+  completedPercent?: number
+  earnedXp?: number
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ritualId?: string | null
+  userId: string
+}
+
+export type RitualSessionUpdateWithoutVideoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRitualSessionStatusFieldUpdateOperationsInput | $Enums.RitualSessionStatus
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ritual?: Prisma.RitualUpdateOneWithoutRitualSessionsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRitualSessionsNestedInput
+}
+
+export type RitualSessionUncheckedUpdateWithoutVideoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRitualSessionStatusFieldUpdateOperationsInput | $Enums.RitualSessionStatus
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type RitualSessionUncheckedUpdateManyWithoutVideoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRitualSessionStatusFieldUpdateOperationsInput | $Enums.RitualSessionStatus
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  earnedXp?: Prisma.IntFieldUpdateOperationsInput | number
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ritualId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -831,8 +1020,10 @@ export type RitualSessionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   updatedAt?: boolean
   ritualId?: boolean
+  videoId?: boolean
   userId?: boolean
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ritualSession"]>
 
@@ -847,8 +1038,10 @@ export type RitualSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   ritualId?: boolean
+  videoId?: boolean
   userId?: boolean
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ritualSession"]>
 
@@ -863,8 +1056,10 @@ export type RitualSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   ritualId?: boolean
+  videoId?: boolean
   userId?: boolean
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ritualSession"]>
 
@@ -879,27 +1074,32 @@ export type RitualSessionSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   ritualId?: boolean
+  videoId?: boolean
   userId?: boolean
 }
 
-export type RitualSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "startedAt" | "completedAt" | "completedPercent" | "earnedXp" | "notes" | "createdAt" | "updatedAt" | "ritualId" | "userId", ExtArgs["result"]["ritualSession"]>
+export type RitualSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "startedAt" | "completedAt" | "completedPercent" | "earnedXp" | "notes" | "createdAt" | "updatedAt" | "ritualId" | "videoId" | "userId", ExtArgs["result"]["ritualSession"]>
 export type RitualSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RitualSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RitualSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ritual?: boolean | Prisma.RitualDefaultArgs<ExtArgs>
+  ritual?: boolean | Prisma.RitualSession$ritualArgs<ExtArgs>
+  video?: boolean | Prisma.RitualSession$videoArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $RitualSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RitualSession"
   objects: {
-    ritual: Prisma.$RitualPayload<ExtArgs>
+    ritual: Prisma.$RitualPayload<ExtArgs> | null
+    video: Prisma.$VideoPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -912,7 +1112,8 @@ export type $RitualSessionPayload<ExtArgs extends runtime.Types.Extensions.Inter
     notes: string | null
     createdAt: Date
     updatedAt: Date
-    ritualId: string
+    ritualId: string | null
+    videoId: string | null
     userId: string
   }, ExtArgs["result"]["ritualSession"]>
   composites: {}
@@ -1308,7 +1509,8 @@ readonly fields: RitualSessionFieldRefs;
  */
 export interface Prisma__RitualSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  ritual<T extends Prisma.RitualDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RitualDefaultArgs<ExtArgs>>): Prisma.Prisma__RitualClient<runtime.Types.Result.GetResult<Prisma.$RitualPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  ritual<T extends Prisma.RitualSession$ritualArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RitualSession$ritualArgs<ExtArgs>>): Prisma.Prisma__RitualClient<runtime.Types.Result.GetResult<Prisma.$RitualPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  video<T extends Prisma.RitualSession$videoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RitualSession$videoArgs<ExtArgs>>): Prisma.Prisma__VideoClient<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1349,6 +1551,7 @@ export interface RitualSessionFieldRefs {
   readonly createdAt: Prisma.FieldRef<"RitualSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"RitualSession", 'DateTime'>
   readonly ritualId: Prisma.FieldRef<"RitualSession", 'String'>
+  readonly videoId: Prisma.FieldRef<"RitualSession", 'String'>
   readonly userId: Prisma.FieldRef<"RitualSession", 'String'>
 }
     
@@ -1748,6 +1951,44 @@ export type RitualSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many RitualSessions to delete.
    */
   limit?: number
+}
+
+/**
+ * RitualSession.ritual
+ */
+export type RitualSession$ritualArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ritual
+   */
+  select?: Prisma.RitualSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ritual
+   */
+  omit?: Prisma.RitualOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RitualInclude<ExtArgs> | null
+  where?: Prisma.RitualWhereInput
+}
+
+/**
+ * RitualSession.video
+ */
+export type RitualSession$videoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Video
+   */
+  select?: Prisma.VideoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Video
+   */
+  omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  where?: Prisma.VideoWhereInput
 }
 
 /**

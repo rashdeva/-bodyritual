@@ -53,7 +53,7 @@ export type HomeViewModel = {
       audioCue: string;
       orderIndex: number;
     }>;
-  };
+  } | null;
   recommendationProfile: {
     goalLabel: string;
     levelLabel: string;
@@ -96,7 +96,8 @@ export type LeaderboardViewModel = {
 
 export type ResultViewModel = {
   sessionId: string;
-  ritualTitle: string;
+  sessionTitle: string;
+  activityType: "video" | "ritual";
   durationMinutes: number;
   earnedXp: number;
   streak: number;
@@ -168,6 +169,37 @@ function getWeekStart(date = new Date()) {
 
 function calculateLevelFromXp(xp: number) {
   return Math.max(1, Math.floor(xp / 120) + 1);
+}
+
+function getDurationMinutesFromVideo(durationSec: number) {
+  return Math.max(1, Math.ceil(durationSec / 60));
+}
+
+function getSessionSummary(session: {
+  ritual: { title: string; durationMinutes: number; type: typeof RitualType.MORNING | typeof RitualType.EVENING; xpReward: number } | null;
+  video: { title: string; durationSec: number } | null;
+}, fallbackRitualType: typeof RitualType.MORNING | typeof RitualType.EVENING) {
+  if (session.video) {
+    return {
+      title: session.video.title,
+      durationMinutes: getDurationMinutesFromVideo(session.video.durationSec),
+      ritualType: fallbackRitualType,
+      xpReward: 25,
+      activityType: "video" as const,
+    };
+  }
+
+  if (session.ritual) {
+    return {
+      title: session.ritual.title,
+      durationMinutes: session.ritual.durationMinutes,
+      ritualType: session.ritual.type,
+      xpReward: session.ritual.xpReward,
+      activityType: "ritual" as const,
+    };
+  }
+
+  throw new Error("Session has no source activity.");
 }
 
 function mapRecommendation(video: RecommendedVideo) {
@@ -338,7 +370,9 @@ export async function getHomeViewModel(userId: string): Promise<HomeViewModel | 
     });
   }
 
-  if (!ritual || ritual.exercises.length === 0) {
+  const activeRitual = ritual && ritual.exercises.length > 0 ? ritual : null;
+
+  if (!activeRitual && recommendations.length === 0) {
     return null;
   }
 
@@ -359,26 +393,30 @@ export async function getHomeViewModel(userId: string): Promise<HomeViewModel | 
     statusLine: `${getDayPartLabel(ritualType)}• Уровень ${currentProfile.currentLevel} • День ${currentProgress.streak} `,
     statusHint:
       todayStatus?.status === DailyStatusType.COMPLETED
-        ? "Сегодняшний ритуал уже завершён. Можно посмотреть результат."
-        : "Твой ритуал уже готов. Один тап и зарядка начнётся.",
-    ritual: {
-      id: ritual.id,
-      title: ritual.title,
-      type: ritual.type,
-      description: ritual.description ?? "Короткий голосовой ритуал без перегруза.",
-      durationMinutes: ritual.durationMinutes,
-      xpReward: ritual.xpReward,
-      audioTitle: ritual.audioTracks[0]?.title ?? "Голосовой ритуал",
-      audioUrl: ritual.audioTracks[0]?.fileUrl ?? null,
-      exercises: ritual.exercises.map((exercise) => ({
-        id: exercise.id,
-        title: exercise.title,
-        description: exercise.description ?? exercise.audioCue ?? exercise.title,
-        durationSeconds: exercise.durationSeconds,
-        audioCue: exercise.audioCue ?? exercise.title,
-        orderIndex: exercise.orderIndex,
-      })),
-    },
+        ? "Сегодняшняя активность уже завершена. Можно посмотреть результат."
+        : recommendations.length > 0
+          ? "Подобрали видео под твой профиль. Можно включать сразу."
+          : "Твой ритуал уже готов. Один тап и зарядка начнётся.",
+    ritual: activeRitual
+      ? {
+          id: activeRitual.id,
+          title: activeRitual.title,
+          type: activeRitual.type,
+          description: activeRitual.description ?? "Короткий голосовой ритуал без перегруза.",
+          durationMinutes: activeRitual.durationMinutes,
+          xpReward: activeRitual.xpReward,
+          audioTitle: activeRitual.audioTracks[0]?.title ?? "Голосовой ритуал",
+          audioUrl: activeRitual.audioTracks[0]?.fileUrl ?? null,
+          exercises: activeRitual.exercises.map((exercise) => ({
+            id: exercise.id,
+            title: exercise.title,
+            description: exercise.description ?? exercise.audioCue ?? exercise.title,
+            durationSeconds: exercise.durationSeconds,
+            audioCue: exercise.audioCue ?? exercise.title,
+            orderIndex: exercise.orderIndex,
+          })),
+        }
+      : null,
     recommendationProfile: buildRecommendationSummary(recommendationProfile),
     recommendations: recommendations.map(mapRecommendation),
     community: leaderboard.slice(0, 12).map((entry, index) => ({
@@ -437,7 +475,7 @@ export async function getProfileViewModel(userId: string): Promise<ProfileViewMo
       progress: true,
       ritualSessions: {
         where: { status: RitualSessionStatus.COMPLETED },
-        include: { ritual: true },
+        include: { ritual: true, video: true },
         orderBy: { completedAt: "desc" },
         take: 8,
       },
@@ -483,20 +521,24 @@ export async function getProfileViewModel(userId: string): Promise<ProfileViewMo
       shortLabel: new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "short" }).format(status.date),
       status: status.status,
     })),
-    recentSessions: user.ritualSessions.map((session) => ({
-      id: session.id,
-      title: session.ritual.title,
-      completedAt: session.completedAt
-        ? new Intl.DateTimeFormat("ru-RU", {
-            day: "numeric",
-            month: "long",
-            hour: "2-digit",
-            minute: "2-digit",
-          }).format(session.completedAt)
-        : "В процессе",
-      earnedXp: session.earnedXp,
-      durationMinutes: session.ritual.durationMinutes,
-    })),
+    recentSessions: user.ritualSessions.map((session) => {
+      const summary = getSessionSummary(session, getDayPart(user.timezone));
+
+      return {
+        id: session.id,
+        title: summary.title,
+        completedAt: session.completedAt
+          ? new Intl.DateTimeFormat("ru-RU", {
+              day: "numeric",
+              month: "long",
+              hour: "2-digit",
+              minute: "2-digit",
+            }).format(session.completedAt)
+          : "В процессе",
+        earnedXp: session.earnedXp,
+        durationMinutes: summary.durationMinutes,
+      };
+    }),
   };
 }
 
@@ -507,6 +549,7 @@ export async function getResultViewModel(sessionId: string, userId: string): Pro
     where: { id: sessionId },
     include: {
       ritual: true,
+      video: true,
       user: {
         include: {
           profile: true,
@@ -520,6 +563,8 @@ export async function getResultViewModel(sessionId: string, userId: string): Pro
     return null;
   }
 
+  const summary = getSessionSummary(session, getDayPart(session.user.timezone));
+
   let noteData: { rankBefore?: number | null; rankAfter?: number | null } = {};
   if (session.notes) {
     try {
@@ -531,8 +576,9 @@ export async function getResultViewModel(sessionId: string, userId: string): Pro
 
   return {
     sessionId: session.id,
-    ritualTitle: session.ritual.title,
-    durationMinutes: session.ritual.durationMinutes,
+    sessionTitle: summary.title,
+    activityType: summary.activityType,
+    durationMinutes: summary.durationMinutes,
     earnedXp: session.earnedXp,
     streak: session.user.progress.streak,
     level: session.user.progress.level,
@@ -549,7 +595,7 @@ export async function getResultViewModel(sessionId: string, userId: string): Pro
   };
 }
 
-export async function startSessionForCurrentUser(userId: string, ritualId: string) {
+export async function startSessionForCurrentUser(userId: string, input: { ritualId?: string; videoId?: string }) {
   await assertDatabaseReady();
 
   const user = await getCurrentUserRecord(userId);
@@ -557,9 +603,14 @@ export async function startSessionForCurrentUser(userId: string, ritualId: strin
     throw new Error("No active user with profile and progress found in the database.");
   }
 
+  if (!input.ritualId && !input.videoId) {
+    throw new Error("A ritualId or videoId is required.");
+  }
+
   const session = await db.ritualSession.create({
     data: {
-      ritualId,
+      ritualId: input.ritualId,
+      videoId: input.videoId,
       userId: user.id,
       status: RitualSessionStatus.STARTED,
       startedAt: new Date(),
@@ -577,6 +628,7 @@ export async function completeSessionForCurrentUser(userId: string, sessionId: s
     where: { id: sessionId },
     include: {
       ritual: true,
+      video: true,
       user: {
         include: {
           profile: true,
@@ -590,11 +642,12 @@ export async function completeSessionForCurrentUser(userId: string, sessionId: s
     throw new Error("Session not found.");
   }
 
+  const summary = getSessionSummary(session, getDayPart(session.user.timezone));
   const completedAt = new Date();
   const today = getStartOfDay(completedAt);
   const weekStart = getWeekStart(completedAt);
   const rankBefore = await calculateRankForUser(session.userId);
-  const newXp = session.user.progress.xp + session.ritual.xpReward;
+  const newXp = session.user.progress.xp + summary.xpReward;
   const newStreak = session.user.progress.streak + 1;
   const newLevel = calculateLevelFromXp(newXp);
 
@@ -605,7 +658,7 @@ export async function completeSessionForCurrentUser(userId: string, sessionId: s
         status: RitualSessionStatus.COMPLETED,
         completedAt,
         completedPercent: 100,
-        earnedXp: session.ritual.xpReward,
+        earnedXp: summary.xpReward,
       },
     }),
     db.user.update({
@@ -638,13 +691,13 @@ export async function completeSessionForCurrentUser(userId: string, sessionId: s
         userId_date_ritualType: {
           userId: session.userId,
           date: today,
-          ritualType: session.ritual.type,
+          ritualType: summary.ritualType,
         },
       },
       create: {
         userId: session.userId,
         date: today,
-        ritualType: session.ritual.type,
+        ritualType: summary.ritualType,
         status: DailyStatusType.COMPLETED,
         sessionId,
       },

@@ -4,15 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pause, Play, Sparkles } from "lucide-react";
-import {
-  startTransition,
-  useEffect,
-  useEffectEvent,
-  useMemo,
-  useState,
-} from "react";
+import { startTransition, useEffect, useEffectEvent, useMemo, useState } from "react";
 
-import { completeRitualSession, startRitualSession } from "@/app/actions";
+import { completeRitualSession, startRitualSession, startVideoSession } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import type { HomeViewModel } from "@/lib/bodyritual-data";
 import { shouldUnoptimizeImage } from "@/lib/image-utils";
@@ -37,24 +31,23 @@ function formatSeconds(value: number) {
 
 export function HomeExperience({ data }: { data: HomeViewModel }) {
   const router = useRouter();
-  const [ritualState, setRitualState] = useState<RitualState>(
-    data.completedToday ? "completed" : "ready",
-  );
+  const featuredVideo = data.recommendations[0] ?? null;
+  const hasRitual = Boolean(data.ritual);
+  const [ritualState, setRitualState] = useState<RitualState>(data.completedToday && hasRitual ? "completed" : "ready");
   const [active, setActive] = useState<ActivePayload | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showFeaturedVideo, setShowFeaturedVideo] = useState(false);
-  const featuredVideo = data.recommendations[0] ?? null;
 
   const totalSeconds = useMemo(
-    () =>
-      data.ritual.exercises.reduce(
-        (sum, exercise) => sum + exercise.durationSeconds,
-        0,
-      ),
-    [data.ritual.exercises],
+    () => (data.ritual?.exercises ?? []).reduce((sum, exercise) => sum + exercise.durationSeconds, 0),
+    [data.ritual?.exercises],
   );
 
   const currentExercise = useMemo(() => {
+    if (!data.ritual) {
+      return null;
+    }
+
     const elapsed = active?.elapsedSeconds ?? 0;
     let cursor = 0;
 
@@ -66,16 +59,11 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
     }
 
     return data.ritual.exercises.at(-1) ?? null;
-  }, [active?.elapsedSeconds, data.ritual.exercises]);
+  }, [active?.elapsedSeconds, data.ritual]);
 
   const currentExerciseIndex = currentExercise?.orderIndex ?? 0;
-  const remainingSeconds = Math.max(
-    0,
-    (active?.totalSeconds ?? totalSeconds) - (active?.elapsedSeconds ?? 0),
-  );
-  const progress = active
-    ? Math.min(1, active.elapsedSeconds / active.totalSeconds)
-    : 0;
+  const remainingSeconds = Math.max(0, (active?.totalSeconds ?? totalSeconds) - (active?.elapsedSeconds ?? 0));
+  const progress = active?.totalSeconds ? Math.min(1, active.elapsedSeconds / active.totalSeconds) : 0;
 
   const speakCue = useEffectEvent((text: string) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) {
@@ -99,7 +87,7 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
   }, [currentExercise?.id, currentExercise, ritualState]);
 
   useEffect(() => {
-    if (ritualState !== "active" || !active) {
+    if (ritualState !== "active" || !active || !data.ritual) {
       return;
     }
 
@@ -119,11 +107,7 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
               const result = await completeRitualSession(prev.sessionId);
               router.push(`/result/${result.sessionId}`);
             } catch (error) {
-              setErrorMessage(
-                error instanceof Error
-                  ? error.message
-                  : "Не удалось завершить ритуал.",
-              );
+              setErrorMessage(error instanceof Error ? error.message : "Не удалось завершить сессию.");
               setRitualState("error");
             }
           });
@@ -136,13 +120,27 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
     }, 1000);
 
     return () => window.clearInterval(timer);
-  }, [active, ritualState, router]);
+  }, [active, data.ritual, ritualState, router]);
 
   async function handleStart() {
     setErrorMessage(null);
 
     if (featuredVideo?.embedUrl) {
-      setShowFeaturedVideo(true);
+      startTransition(async () => {
+        try {
+          const result = await startVideoSession(featuredVideo.id);
+          setActive({
+            sessionId: result.sessionId,
+            totalSeconds: 0,
+            elapsedSeconds: 0,
+          });
+          setShowFeaturedVideo(true);
+          setRitualState("ready");
+        } catch (error) {
+          setErrorMessage(error instanceof Error ? error.message : "Не удалось открыть видео.");
+          setRitualState("error");
+        }
+      });
       return;
     }
 
@@ -151,9 +149,15 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
       return;
     }
 
+    if (!data.ritual) {
+      setErrorMessage("Сейчас доступен только видео-режим.");
+      setRitualState("error");
+      return;
+    }
+
     startTransition(async () => {
       try {
-        const result = await startRitualSession(data.ritual.id);
+        const result = await startRitualSession(data.ritual!.id);
         setActive({
           sessionId: result.sessionId,
           totalSeconds,
@@ -161,11 +165,7 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
         });
         setRitualState("active");
       } catch (error) {
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : "Не удалось запустить ритуал.",
-        );
+        setErrorMessage(error instanceof Error ? error.message : "Не удалось запустить ритуал.");
         setRitualState("error");
       }
     });
@@ -175,29 +175,41 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
     setRitualState((current) => (current === "paused" ? "active" : "paused"));
   }
 
+  function handleCompleteFeaturedVideo() {
+    if (!active) {
+      return;
+    }
+
+    setErrorMessage(null);
+
+    startTransition(async () => {
+      try {
+        const result = await completeRitualSession(active.sessionId);
+        router.push(`/result/${result.sessionId}`);
+      } catch (error) {
+        setErrorMessage(error instanceof Error ? error.message : "Не удалось засчитать просмотр.");
+        setRitualState("error");
+      }
+    });
+  }
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#fffef9_0%,#f8f2e8_34%,#efe3d4_72%,#eadbcc_100%)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(255,255,255,0.88),transparent_32%),radial-gradient(circle_at_20%_100%,rgba(227,189,138,0.26),transparent_28%),radial-gradient(circle_at_82%_82%,rgba(205,146,102,0.18),transparent_24%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,0.54))]" />
 
       <section className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col px-5 pb-8 pt-6 sm:px-8">
-        <header className="flex flex-col-reverse gap-4 md:gap-0 md:flex-row items-start justify-between">
+        <header className="flex flex-col-reverse items-start justify-between gap-4 md:flex-row md:gap-0">
           <div>
-            <p className="text-[0.7rem] uppercase tracking-[0.32em] text-stone-500">
-              Body Ritual
-            </p>
-            <h1 className="mt-3 text-2xl font-semibold tracking-[-0.06em] text-stone-950 sm:text-3xl">
-              {data.statusLine}
-            </h1>
-            <p className="mt-2 max-w-xs text-sm leading-6 text-stone-600">
-              {data.statusHint}
-            </p>
+            <p className="text-[0.7rem] uppercase tracking-[0.32em] text-stone-500">Body Ritual</p>
+            <h1 className="mt-3 text-2xl font-semibold tracking-[-0.06em] text-stone-950 sm:text-3xl">{data.statusLine}</h1>
+            <p className="mt-2 max-w-xs text-sm leading-6 text-stone-600">{data.statusHint}</p>
           </div>
 
           <div className="flex items-center gap-3">
             <Link
               href="/leaderboard"
-              className="rounded-full border border-white/70 bg-white/70 px-4 py-4 font-medium text-sm text-stone-700 shadow-[0_12px_32px_rgba(96,64,32,0.1)] backdrop-blur"
+              className="rounded-full border border-white/70 bg-white/70 px-4 py-4 text-sm font-medium text-stone-700 shadow-[0_12px_32px_rgba(96,64,32,0.1)] backdrop-blur"
             >
               {data.user.xp} XP
             </Link>
@@ -213,9 +225,7 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
                 unoptimized={shouldUnoptimizeImage(data.user.avatarUrl)}
                 className="size-9 rounded-full bg-stone-200 object-cover"
               />
-              <span className="pr-2 text-sm font-medium text-stone-800">
-                {data.user.name}
-              </span>
+              <span className="pr-2 text-sm font-medium text-stone-800">{data.user.name}</span>
             </Link>
           </div>
         </header>
@@ -240,12 +250,8 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
                   <span className="h-1 w-1 rounded-full bg-stone-300" />
                   <span>{featuredVideo.intensityLabel}</span>
                 </div>
-                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.06em] text-stone-950">
-                  {featuredVideo.title}
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-stone-600">
-                  {featuredVideo.description}
-                </p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.06em] text-stone-950">{featuredVideo.title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{featuredVideo.description}</p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button
                     type="button"
@@ -254,11 +260,18 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
                   >
                     Свернуть
                   </button>
+                  <button
+                    type="button"
+                    onClick={handleCompleteFeaturedVideo}
+                    className="rounded-full bg-stone-950 px-4 py-2 text-sm font-medium text-white"
+                  >
+                    Засчитать просмотр
+                  </button>
                   <a
                     href={featuredVideo.videoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-full bg-stone-950 px-4 py-2 text-sm font-medium text-white"
+                    className="rounded-full border border-stone-200 bg-white px-4 py-2 text-sm text-stone-700"
                   >
                     Открыть в VK
                   </a>
@@ -284,108 +297,101 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
                     <div className="flex size-16 items-center justify-center rounded-full bg-stone-950 text-white shadow-[0_16px_44px_rgba(28,25,23,0.22)]">
                       <Play className="ml-1 size-7" />
                     </div>
-                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">
-                      Смотреть
-                    </h2>
-                    <p className="max-w-[12rem] text-sm leading-6 text-stone-600">
-                      {featuredVideo.title}
-                    </p>
-                    <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
-                      {featuredVideo.durationLabel}
-                    </p>
+                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">Смотреть</h2>
+                    <p className="max-w-[12rem] text-sm leading-6 text-stone-600">{featuredVideo.title}</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-stone-500">{featuredVideo.durationLabel}</p>
                   </>
                 ) : ritualState === "ready" ? (
                   <>
                     <div className="flex size-16 items-center justify-center rounded-full bg-stone-950 text-white shadow-[0_16px_44px_rgba(28,25,23,0.22)]">
                       <Play className="ml-1 size-7" />
                     </div>
-                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">
-                      Начать
-                    </h2>
+                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">Начать</h2>
                     <p className="text-sm leading-6 text-stone-600">
-                      {data.ritual.durationMinutes} минут зарядки
+                      {data.ritual ? `${data.ritual.durationMinutes} минут зарядки` : "Открыть подобранную практику"}
                     </p>
                   </>
                 ) : null}
 
-                {ritualState === "active" && !featuredVideo && (
+                {ritualState === "active" && !featuredVideo && data.ritual ? (
                   <>
-                    <div className="text-5xl font-semibold tracking-[-0.08em] text-stone-950">
-                      {formatSeconds(remainingSeconds)}
-                    </div>
+                    <div className="text-5xl font-semibold tracking-[-0.08em] text-stone-950">{formatSeconds(remainingSeconds)}</div>
                     <p className="text-sm text-stone-500">
-                      Упражнение {currentExerciseIndex + 1} из{" "}
-                      {data.ritual.exercises.length}
+                      Упражнение {currentExerciseIndex + 1} из {data.ritual.exercises.length}
                     </p>
-                    <p className="max-w-[11rem] text-base leading-6 font-medium text-stone-800">
-                      {currentExercise?.title}
-                    </p>
+                    <p className="max-w-[11rem] text-base font-medium leading-6 text-stone-800">{currentExercise?.title}</p>
                   </>
-                )}
+                ) : null}
 
-                {ritualState === "paused" && !featuredVideo && (
+                {ritualState === "paused" && !featuredVideo && data.ritual ? (
                   <>
-                    <div className="text-5xl font-semibold tracking-[-0.08em] text-stone-950">
-                      {formatSeconds(remainingSeconds)}
-                    </div>
+                    <div className="text-5xl font-semibold tracking-[-0.08em] text-stone-950">{formatSeconds(remainingSeconds)}</div>
                     <p className="text-sm text-stone-500">Ритуал на паузе</p>
-                    <p className="max-w-[11rem] text-base leading-6 font-medium text-stone-800">
-                      Нажми ниже, чтобы продолжить
-                    </p>
+                    <p className="max-w-[11rem] text-base font-medium leading-6 text-stone-800">Нажми ниже, чтобы продолжить</p>
                   </>
-                )}
+                ) : null}
 
-                {ritualState === "completed" && !featuredVideo && (
+                {ritualState === "completed" && !featuredVideo ? (
                   <>
                     <div className="flex size-16 items-center justify-center rounded-full bg-emerald-600 text-white shadow-[0_16px_44px_rgba(16,185,129,0.24)]">
                       <Sparkles className="size-7" />
                     </div>
-                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">
-                      Готово
-                    </h2>
+                    <h2 className="text-3xl font-semibold tracking-[-0.07em] text-stone-950">Готово</h2>
                     <p className="text-sm leading-6 text-stone-600">
-                      Ритуал завершён, можно посмотреть результат
+                      {data.ritual ? "Ритуал завершён, можно посмотреть результат" : "Просмотр засчитан, можно посмотреть результат"}
                     </p>
                   </>
-                )}
+                ) : null}
 
-                {ritualState === "error" && !featuredVideo && (
+                {ritualState === "error" ? (
                   <>
-                    <div className="text-2xl font-semibold tracking-[-0.06em] text-stone-950">
-                      Ошибка запуска
-                    </div>
-                    <p className="text-sm leading-6 text-stone-600">
-                      {errorMessage ?? "Повтори попытку ещё раз."}
-                    </p>
+                    <div className="text-2xl font-semibold tracking-[-0.06em] text-stone-950">Ошибка запуска</div>
+                    <p className="text-sm leading-6 text-stone-600">{errorMessage ?? "Повтори попытку ещё раз."}</p>
                   </>
-                )}
+                ) : null}
               </div>
             </button>
           )}
 
           <div className="mt-5 min-h-11">
-            {(ritualState === "active" || ritualState === "paused") &&
-            active &&
-            !featuredVideo ? (
+            {(ritualState === "active" || ritualState === "paused") && active && data.ritual ? (
               <Button
                 onClick={handleTogglePause}
                 className="rounded-full bg-stone-950 px-5 py-6 text-sm text-white shadow-[0_18px_44px_rgba(28,25,23,0.22)]"
               >
-                {ritualState === "paused" ? (
-                  <Play className="size-4" />
-                ) : (
-                  <Pause className="size-4" />
-                )}
+                {ritualState === "paused" ? <Play className="size-4" /> : <Pause className="size-4" />}
                 {ritualState === "paused" ? "Продолжить" : "Пауза"}
               </Button>
             ) : (
               <p className="text-sm text-stone-500">
                 {featuredVideo
                   ? `${featuredVideo.typeLabel} • ${featuredVideo.levelLabel} • ${featuredVideo.intensityLabel}`
-                  : `${data.ritual.audioTitle} • ${data.ritual.description}`}
+                  : data.ritual
+                    ? `${data.ritual.audioTitle} • ${data.ritual.description}`
+                    : "Видео-подборка готова"}
               </p>
             )}
           </div>
+
+          {data.recommendations.length > 1 ? (
+            <div className="mt-8 grid w-full max-w-4xl gap-3 sm:grid-cols-2">
+              {data.recommendations.slice(1, 4).map((video) => (
+                <a
+                  key={video.id}
+                  href={video.videoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-[1.6rem] border border-white/70 bg-white/72 p-5 text-left shadow-[0_18px_48px_rgba(96,64,32,0.12)] backdrop-blur transition hover:bg-white/86"
+                >
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-stone-500">
+                    {video.typeLabel} • {video.durationLabel}
+                  </p>
+                  <h3 className="mt-3 text-xl font-semibold tracking-[-0.05em] text-stone-950">{video.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{video.description}</p>
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div className="flex justify-center pt-2">

@@ -176,13 +176,16 @@ model RitualSession {
   notes             String?
   createdAt         DateTime             @default(now())
   updatedAt         DateTime             @updatedAt
-  ritualId          String
-  ritual            Ritual               @relation(fields: [ritualId], references: [id], onDelete: Cascade)
+  ritualId          String?
+  ritual            Ritual?              @relation(fields: [ritualId], references: [id], onDelete: Cascade)
+  videoId           String?
+  video             Video?               @relation(fields: [videoId], references: [id], onDelete: Cascade)
   userId            String
   user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
   @@index([ritualId, status])
+  @@index([videoId, status])
 }
 
 model DailyStatus {
@@ -218,4 +221,5 @@ model Video {
   isPublished    Boolean               @default(false)
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
+  sessions       RitualSession[]
 }

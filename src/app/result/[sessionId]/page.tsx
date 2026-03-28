@@ -31,7 +31,9 @@ export default async function ResultPage({
           <p className="text-[0.72rem] uppercase tracking-[0.32em] text-stone-500">Reward loop</p>
           <h1 className="mt-4 text-4xl font-semibold tracking-[-0.07em] text-stone-950 sm:text-5xl">Отлично</h1>
           <p className="mt-3 text-base leading-7 text-stone-600">
-            Ты завершил{result.durationMinutes === 1 ? "" : "а"} {result.ritualTitle.toLowerCase()} и зафиксировал дневной ритуал.
+            {result.activityType === "video"
+              ? `Ты завершил${result.durationMinutes === 1 ? "" : "а"} просмотр ${result.sessionTitle.toLowerCase()} и зафиксировал активность дня.`
+              : `Ты завершил${result.durationMinutes === 1 ? "" : "а"} ${result.sessionTitle.toLowerCase()} и зафиксировал дневной ритуал.`}
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2">

@@ -296,6 +296,7 @@ export type VideoWhereInput = {
   isPublished?: Prisma.BoolFilter<"Video"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
+  sessions?: Prisma.RitualSessionListRelationFilter
 }
 
 export type VideoOrderByWithRelationInput = {
@@ -316,6 +317,7 @@ export type VideoOrderByWithRelationInput = {
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  sessions?: Prisma.RitualSessionOrderByRelationAggregateInput
 }
 
 export type VideoWhereUniqueInput = Prisma.AtLeast<{
@@ -339,6 +341,7 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   isPublished?: Prisma.BoolFilter<"Video"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
+  sessions?: Prisma.RitualSessionListRelationFilter
 }, "id" | "slug">
 
 export type VideoOrderByWithAggregationInput = {
@@ -407,6 +410,7 @@ export type VideoCreateInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  sessions?: Prisma.RitualSessionCreateNestedManyWithoutVideoInput
 }
 
 export type VideoUncheckedCreateInput = {
@@ -427,6 +431,7 @@ export type VideoUncheckedCreateInput = {
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  sessions?: Prisma.RitualSessionUncheckedCreateNestedManyWithoutVideoInput
 }
 
 export type VideoUpdateInput = {
@@ -447,6 +452,7 @@ export type VideoUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.RitualSessionUpdateManyWithoutVideoNestedInput
 }
 
 export type VideoUncheckedUpdateInput = {
@@ -467,6 +473,7 @@ export type VideoUncheckedUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.RitualSessionUncheckedUpdateManyWithoutVideoNestedInput
 }
 
 export type VideoCreateManyInput = {
@@ -527,6 +534,11 @@ export type VideoUncheckedUpdateManyInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type VideoNullableScalarRelationFilter = {
+  is?: Prisma.VideoWhereInput | null
+  isNot?: Prisma.VideoWhereInput | null
 }
 
 export type EnumWarmupGoalNullableListFilter<$PrismaModel = never> = {
@@ -597,6 +609,22 @@ export type VideoSumOrderByAggregateInput = {
   durationSec?: Prisma.SortOrder
 }
 
+export type VideoCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.VideoCreateWithoutSessionsInput, Prisma.VideoUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutSessionsInput
+  connect?: Prisma.VideoWhereUniqueInput
+}
+
+export type VideoUpdateOneWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.VideoCreateWithoutSessionsInput, Prisma.VideoUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.VideoCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.VideoUpsertWithoutSessionsInput
+  disconnect?: Prisma.VideoWhereInput | boolean
+  delete?: Prisma.VideoWhereInput | boolean
+  connect?: Prisma.VideoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutSessionsInput, Prisma.VideoUpdateWithoutSessionsInput>, Prisma.VideoUncheckedUpdateWithoutSessionsInput>
+}
+
 export type VideoCreategoalTagsInput = {
   set: $Enums.WarmupGoal[]
 }
@@ -641,6 +669,131 @@ export type EnumVideoIntensityFieldUpdateOperationsInput = {
   set?: $Enums.VideoIntensity
 }
 
+export type VideoCreateWithoutSessionsInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  videoUrl: string
+  thumbnailUrl?: string | null
+  durationSec: number
+  level: $Enums.FitnessLevel
+  type: $Enums.VideoType
+  goalTags?: Prisma.VideoCreategoalTagsInput | $Enums.WarmupGoal[]
+  focusTags?: Prisma.VideoCreatefocusTagsInput | string[]
+  safetyTags?: Prisma.VideoCreatesafetyTagsInput | string[]
+  contextTags?: Prisma.VideoCreatecontextTagsInput | string[]
+  intensity: $Enums.VideoIntensity
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type VideoUncheckedCreateWithoutSessionsInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  videoUrl: string
+  thumbnailUrl?: string | null
+  durationSec: number
+  level: $Enums.FitnessLevel
+  type: $Enums.VideoType
+  goalTags?: Prisma.VideoCreategoalTagsInput | $Enums.WarmupGoal[]
+  focusTags?: Prisma.VideoCreatefocusTagsInput | string[]
+  safetyTags?: Prisma.VideoCreatesafetyTagsInput | string[]
+  contextTags?: Prisma.VideoCreatecontextTagsInput | string[]
+  intensity: $Enums.VideoIntensity
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type VideoCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.VideoWhereUniqueInput
+  create: Prisma.XOR<Prisma.VideoCreateWithoutSessionsInput, Prisma.VideoUncheckedCreateWithoutSessionsInput>
+}
+
+export type VideoUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.VideoUpdateWithoutSessionsInput, Prisma.VideoUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.VideoCreateWithoutSessionsInput, Prisma.VideoUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.VideoWhereInput
+}
+
+export type VideoUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.VideoWhereInput
+  data: Prisma.XOR<Prisma.VideoUpdateWithoutSessionsInput, Prisma.VideoUncheckedUpdateWithoutSessionsInput>
+}
+
+export type VideoUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.EnumFitnessLevelFieldUpdateOperationsInput | $Enums.FitnessLevel
+  type?: Prisma.EnumVideoTypeFieldUpdateOperationsInput | $Enums.VideoType
+  goalTags?: Prisma.VideoUpdategoalTagsInput | $Enums.WarmupGoal[]
+  focusTags?: Prisma.VideoUpdatefocusTagsInput | string[]
+  safetyTags?: Prisma.VideoUpdatesafetyTagsInput | string[]
+  contextTags?: Prisma.VideoUpdatecontextTagsInput | string[]
+  intensity?: Prisma.EnumVideoIntensityFieldUpdateOperationsInput | $Enums.VideoIntensity
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type VideoUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.EnumFitnessLevelFieldUpdateOperationsInput | $Enums.FitnessLevel
+  type?: Prisma.EnumVideoTypeFieldUpdateOperationsInput | $Enums.VideoType
+  goalTags?: Prisma.VideoUpdategoalTagsInput | $Enums.WarmupGoal[]
+  focusTags?: Prisma.VideoUpdatefocusTagsInput | string[]
+  safetyTags?: Prisma.VideoUpdatesafetyTagsInput | string[]
+  contextTags?: Prisma.VideoUpdatecontextTagsInput | string[]
+  intensity?: Prisma.EnumVideoIntensityFieldUpdateOperationsInput | $Enums.VideoIntensity
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type VideoCountOutputType
+ */
+
+export type VideoCountOutputType = {
+  sessions: number
+}
+
+export type VideoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sessions?: boolean | VideoCountOutputTypeCountSessionsArgs
+}
+
+/**
+ * VideoCountOutputType without action
+ */
+export type VideoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VideoCountOutputType
+   */
+  select?: Prisma.VideoCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VideoCountOutputType without action
+ */
+export type VideoCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RitualSessionWhereInput
+}
 
 
 export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -661,6 +814,8 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  sessions?: boolean | Prisma.Video$sessionsArgs<ExtArgs>
+  _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["video"]>
 
 export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -724,10 +879,18 @@ export type VideoSelectScalar = {
 }
 
 export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "videoUrl" | "thumbnailUrl" | "durationSec" | "level" | "type" | "goalTags" | "focusTags" | "safetyTags" | "contextTags" | "intensity" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sessions?: boolean | Prisma.Video$sessionsArgs<ExtArgs>
+  _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type VideoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type VideoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Video"
-  objects: {}
+  objects: {
+    sessions: Prisma.$RitualSessionPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     slug: string
@@ -1140,6 +1303,7 @@ readonly fields: VideoFieldRefs;
  */
 export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  sessions<T extends Prisma.Video$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RitualSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1203,6 +1367,10 @@ export type VideoFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * Filter, which Video to fetch.
    */
   where: Prisma.VideoWhereUniqueInput
@@ -1221,6 +1389,10 @@ export type VideoFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * Filter, which Video to fetch.
    */
   where: Prisma.VideoWhereUniqueInput
@@ -1238,6 +1410,10 @@ export type VideoFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Video
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
   /**
    * Filter, which Video to fetch.
    */
@@ -1287,6 +1463,10 @@ export type VideoFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * Filter, which Video to fetch.
    */
   where?: Prisma.VideoWhereInput
@@ -1334,6 +1514,10 @@ export type VideoFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Video
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
   /**
    * Filter, which Videos to fetch.
    */
@@ -1383,6 +1567,10 @@ export type VideoCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * The data needed to create a Video.
    */
   data: Prisma.XOR<Prisma.VideoCreateInput, Prisma.VideoUncheckedCreateInput>
@@ -1430,6 +1618,10 @@ export type VideoUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Video
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
   /**
    * The data needed to update a Video.
    */
@@ -1497,6 +1689,10 @@ export type VideoUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * The filter to search for the Video to update in case it exists.
    */
   where: Prisma.VideoWhereUniqueInput
@@ -1523,6 +1719,10 @@ export type VideoDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  /**
    * Filter which Video to delete.
    */
   where: Prisma.VideoWhereUniqueInput
@@ -1543,6 +1743,30 @@ export type VideoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Video.sessions
+ */
+export type Video$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RitualSession
+   */
+  select?: Prisma.RitualSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RitualSession
+   */
+  omit?: Prisma.RitualSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RitualSessionInclude<ExtArgs> | null
+  where?: Prisma.RitualSessionWhereInput
+  orderBy?: Prisma.RitualSessionOrderByWithRelationInput | Prisma.RitualSessionOrderByWithRelationInput[]
+  cursor?: Prisma.RitualSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RitualSessionScalarFieldEnum | Prisma.RitualSessionScalarFieldEnum[]
+}
+
+/**
  * Video without action
  */
 export type VideoDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1554,4 +1778,8 @@ export type VideoDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Video
    */
   omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
 }

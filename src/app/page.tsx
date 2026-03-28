@@ -3,8 +3,11 @@ import { redirect } from "next/navigation";
 import { DataEmptyState } from "@/components/bodyritual/data-empty-state";
 import { HomeExperience } from "@/components/bodyritual/home-experience";
 import { getHomeViewModel } from "@/lib/bodyritual-data";
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession, isAdminUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { buildVkVideoEmbedUrl } from "@/lib/vk-video";
+
+const HOME_FALLBACK_VIDEO_URL = "https://vk.com/video-54183890_456239641";
 
 export default async function HomePage() {
   const session = await getAuthSession();
@@ -21,13 +24,18 @@ export default async function HomePage() {
     redirect("/onboarding");
   }
 
+  const adminUser = isAdminUser(session.user.id);
   const data = await getHomeViewModel(session.user.id);
 
   if (!data) {
     return (
       <DataEmptyState
         title="В базе пока не хватает данных для главного экрана"
-        description="Нужен хотя бы один активный пользователь с profile/progress и один active ritual с exercises/audioTracks. После этого home screen будет работать только на реальных данных из Postgres."
+        description="Для video-first главной нужен хотя бы один опубликованный video в Postgres. Пока подборка пуста, можно открыть резервное видео."
+        adminHref={adminUser ? "/admin/videos" : undefined}
+        fallbackVideoUrl={HOME_FALLBACK_VIDEO_URL}
+        fallbackVideoEmbedUrl={buildVkVideoEmbedUrl(HOME_FALLBACK_VIDEO_URL)}
+        fallbackVideoTitle="Резервное видео для главного экрана"
       />
     );
   }
