@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum WorkoutSessionStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  CANCELED
+}
+
+model User {
+  id              String           @id @default(cuid())
+  email           String?          @unique
+  displayName     String
+  avatarUrl       String?
+  timezone        String           @default("UTC")
+  xpTotal         Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  workoutSessions WorkoutSession[]
+}
+
+model Ritual {
+  id               String           @id @default(cuid())
+  slug             String           @unique
+  title            String
+  description      String?
+  durationMinutes  Int
+  xpReward         Int              @default(25)
+  isPublished      Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  workoutSessions  WorkoutSession[]
+}
+
+model WorkoutSession {
+  id              String               @id @default(cuid())
+  status          WorkoutSessionStatus @default(PLANNED)
+  startedAt       DateTime?
+  completedAt     DateTime?
+  earnedXp        Int                  @default(0)
+  notes           String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  ritualId        String
+  ritual          Ritual               @relation(fields: [ritualId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([ritualId, status])
+}
