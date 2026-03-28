@@ -9,11 +9,92 @@
 * 🟢 You can import this file directly.
 */
 
-export const WorkoutSessionStatus = {
-  PLANNED: 'PLANNED',
+export const UserStatus = {
   ACTIVE: 'ACTIVE',
-  COMPLETED: 'COMPLETED',
-  CANCELED: 'CANCELED'
+  INVITED: 'INVITED',
+  PAUSED: 'PAUSED'
 } as const
 
-export type WorkoutSessionStatus = (typeof WorkoutSessionStatus)[keyof typeof WorkoutSessionStatus]
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const PreferredTime = {
+  MORNING: 'MORNING',
+  EVENING: 'EVENING',
+  BOTH: 'BOTH'
+} as const
+
+export type PreferredTime = (typeof PreferredTime)[keyof typeof PreferredTime]
+
+
+export const FitnessLevel = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED'
+} as const
+
+export type FitnessLevel = (typeof FitnessLevel)[keyof typeof FitnessLevel]
+
+
+export const WarmupGoal = {
+  PRE_WORKOUT: 'PRE_WORKOUT',
+  DESK_RESET: 'DESK_RESET',
+  RECOVERY: 'RECOVERY',
+  FLEXIBILITY: 'FLEXIBILITY'
+} as const
+
+export type WarmupGoal = (typeof WarmupGoal)[keyof typeof WarmupGoal]
+
+
+export const RestrictionLevel = {
+  NONE: 'NONE',
+  GENTLE_ONLY: 'GENTLE_ONLY',
+  PAIN_OR_INJURY: 'PAIN_OR_INJURY'
+} as const
+
+export type RestrictionLevel = (typeof RestrictionLevel)[keyof typeof RestrictionLevel]
+
+
+export const VideoType = {
+  WARMUP: 'WARMUP',
+  MOBILITY: 'MOBILITY',
+  STRETCH: 'STRETCH',
+  RECOVERY: 'RECOVERY'
+} as const
+
+export type VideoType = (typeof VideoType)[keyof typeof VideoType]
+
+
+export const VideoIntensity = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+} as const
+
+export type VideoIntensity = (typeof VideoIntensity)[keyof typeof VideoIntensity]
+
+
+export const RitualType = {
+  MORNING: 'MORNING',
+  EVENING: 'EVENING'
+} as const
+
+export type RitualType = (typeof RitualType)[keyof typeof RitualType]
+
+
+export const RitualSessionStatus = {
+  STARTED: 'STARTED',
+  COMPLETED: 'COMPLETED',
+  ABANDONED: 'ABANDONED'
+} as const
+
+export type RitualSessionStatus = (typeof RitualSessionStatus)[keyof typeof RitualSessionStatus]
+
+
+export const DailyStatusType = {
+  COMPLETED: 'COMPLETED',
+  MISSED: 'MISSED',
+  REST: 'REST'
+} as const
+
+export type DailyStatusType = (typeof DailyStatusType)[keyof typeof DailyStatusType]

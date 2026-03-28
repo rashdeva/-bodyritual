@@ -9,6 +9,12 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/UserProfile'
+export type * from './models/UserProgress'
 export type * from './models/Ritual'
-export type * from './models/WorkoutSession'
+export type * from './models/Exercise'
+export type * from './models/AudioTrack'
+export type * from './models/RitualSession'
+export type * from './models/DailyStatus'
+export type * from './models/Video'
 export type * from './commonInputTypes'

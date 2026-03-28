@@ -52,8 +52,14 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  UserProfile: 'UserProfile',
+  UserProgress: 'UserProgress',
   Ritual: 'Ritual',
-  WorkoutSession: 'WorkoutSession'
+  Exercise: 'Exercise',
+  AudioTrack: 'AudioTrack',
+  RitualSession: 'RitualSession',
+  DailyStatus: 'DailyStatus',
+  Video: 'Video'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -75,9 +81,14 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  authProvider: 'authProvider',
+  authProviderAccountId: 'authProviderAccountId',
   displayName: 'displayName',
   avatarUrl: 'avatarUrl',
   timezone: 'timezone',
+  locale: 'locale',
+  status: 'status',
+  onboardingCompleted: 'onboardingCompleted',
   xpTotal: 'xpTotal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -86,13 +97,50 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const UserProfileScalarFieldEnum = {
+  userId: 'userId',
+  goal: 'goal',
+  preferredTime: 'preferredTime',
+  fitnessLevel: 'fitnessLevel',
+  warmupGoal: 'warmupGoal',
+  focusAreas: 'focusAreas',
+  timeBudgetMinutes: 'timeBudgetMinutes',
+  restrictionLevel: 'restrictionLevel',
+  experiencePoints: 'experiencePoints',
+  currentLevel: 'currentLevel',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const UserProgressScalarFieldEnum = {
+  userId: 'userId',
+  level: 'level',
+  xp: 'xp',
+  streak: 'streak',
+  rankPosition: 'rankPosition',
+  totalCompletedSessions: 'totalCompletedSessions',
+  weeklyCompletedSessions: 'weeklyCompletedSessions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProgressScalarFieldEnum = (typeof UserProgressScalarFieldEnum)[keyof typeof UserProgressScalarFieldEnum]
+
+
 export const RitualScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   title: 'title',
+  type: 'type',
   description: 'description',
   durationMinutes: 'durationMinutes',
   xpReward: 'xpReward',
+  isActive: 'isActive',
   isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -101,11 +149,42 @@ export const RitualScalarFieldEnum = {
 export type RitualScalarFieldEnum = (typeof RitualScalarFieldEnum)[keyof typeof RitualScalarFieldEnum]
 
 
-export const WorkoutSessionScalarFieldEnum = {
+export const ExerciseScalarFieldEnum = {
+  id: 'id',
+  ritualId: 'ritualId',
+  title: 'title',
+  description: 'description',
+  durationSeconds: 'durationSeconds',
+  orderIndex: 'orderIndex',
+  audioCue: 'audioCue',
+  illustrationUrl: 'illustrationUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
+
+
+export const AudioTrackScalarFieldEnum = {
+  id: 'id',
+  ritualId: 'ritualId',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  durationSeconds: 'durationSeconds',
+  language: 'language',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AudioTrackScalarFieldEnum = (typeof AudioTrackScalarFieldEnum)[keyof typeof AudioTrackScalarFieldEnum]
+
+
+export const RitualSessionScalarFieldEnum = {
   id: 'id',
   status: 'status',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
+  completedPercent: 'completedPercent',
   earnedXp: 'earnedXp',
   notes: 'notes',
   createdAt: 'createdAt',
@@ -114,7 +193,44 @@ export const WorkoutSessionScalarFieldEnum = {
   userId: 'userId'
 } as const
 
-export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
+export type RitualSessionScalarFieldEnum = (typeof RitualSessionScalarFieldEnum)[keyof typeof RitualSessionScalarFieldEnum]
+
+
+export const DailyStatusScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  ritualType: 'ritualType',
+  status: 'status',
+  sessionId: 'sessionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyStatusScalarFieldEnum = (typeof DailyStatusScalarFieldEnum)[keyof typeof DailyStatusScalarFieldEnum]
+
+
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  durationSec: 'durationSec',
+  level: 'level',
+  type: 'type',
+  goalTags: 'goalTags',
+  focusTags: 'focusTags',
+  safetyTags: 'safetyTags',
+  contextTags: 'contextTags',
+  intensity: 'intensity',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
 
 
 export const SortOrder = {

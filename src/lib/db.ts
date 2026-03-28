@@ -12,16 +12,16 @@ const adapter = new PrismaPg({
 });
 
 const globalForPrisma = globalThis as typeof globalThis & {
-  prisma?: PrismaClient;
+  prismaBodyritualV2?: PrismaClient;
 };
 
 export const db =
-  globalForPrisma.prisma ??
+  globalForPrisma.prismaBodyritualV2 ??
   new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
   });
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = db;
+  globalForPrisma.prismaBodyritualV2 = db;
 }

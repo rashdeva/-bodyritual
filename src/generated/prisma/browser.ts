@@ -23,12 +23,42 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = Prisma.UserProfileModel
+/**
+ * Model UserProgress
+ * 
+ */
+export type UserProgress = Prisma.UserProgressModel
+/**
  * Model Ritual
  * 
  */
 export type Ritual = Prisma.RitualModel
 /**
- * Model WorkoutSession
+ * Model Exercise
  * 
  */
-export type WorkoutSession = Prisma.WorkoutSessionModel
+export type Exercise = Prisma.ExerciseModel
+/**
+ * Model AudioTrack
+ * 
+ */
+export type AudioTrack = Prisma.AudioTrackModel
+/**
+ * Model RitualSession
+ * 
+ */
+export type RitualSession = Prisma.RitualSessionModel
+/**
+ * Model DailyStatus
+ * 
+ */
+export type DailyStatus = Prisma.DailyStatusModel
+/**
+ * Model Video
+ * 
+ */
+export type Video = Prisma.VideoModel

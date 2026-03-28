@@ -385,8 +385,14 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  UserProfile: 'UserProfile',
+  UserProgress: 'UserProgress',
   Ritual: 'Ritual',
-  WorkoutSession: 'WorkoutSession'
+  Exercise: 'Exercise',
+  AudioTrack: 'AudioTrack',
+  RitualSession: 'RitualSession',
+  DailyStatus: 'DailyStatus',
+  Video: 'Video'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "ritual" | "workoutSession"
+    modelProps: "user" | "userProfile" | "userProgress" | "ritual" | "exercise" | "audioTrack" | "ritualSession" | "dailyStatus" | "video"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -480,6 +486,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserProfile: {
+      payload: Prisma.$UserProfilePayload<ExtArgs>
+      fields: Prisma.UserProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.UserProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        findMany: {
+          args: Prisma.UserProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+        }
+        create: {
+          args: Prisma.UserProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        createMany: {
+          args: Prisma.UserProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.UserProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        update: {
+          args: Prisma.UserProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.UserProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserProfile>
+        }
+        groupBy: {
+          args: Prisma.UserProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserProgress: {
+      payload: Prisma.$UserProgressPayload<ExtArgs>
+      fields: Prisma.UserProgressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserProgressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserProgressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        findFirst: {
+          args: Prisma.UserProgressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserProgressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        findMany: {
+          args: Prisma.UserProgressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>[]
+        }
+        create: {
+          args: Prisma.UserProgressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        createMany: {
+          args: Prisma.UserProgressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserProgressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>[]
+        }
+        delete: {
+          args: Prisma.UserProgressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        update: {
+          args: Prisma.UserProgressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserProgressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserProgressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserProgressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserProgressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserProgressPayload>
+        }
+        aggregate: {
+          args: Prisma.UserProgressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserProgress>
+        }
+        groupBy: {
+          args: Prisma.UserProgressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserProgressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserProgressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserProgressCountAggregateOutputType> | number
+        }
+      }
+    }
     Ritual: {
       payload: Prisma.$RitualPayload<ExtArgs>
       fields: Prisma.RitualFieldRefs
@@ -554,77 +708,373 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    WorkoutSession: {
-      payload: Prisma.$WorkoutSessionPayload<ExtArgs>
-      fields: Prisma.WorkoutSessionFieldRefs
+    Exercise: {
+      payload: Prisma.$ExercisePayload<ExtArgs>
+      fields: Prisma.ExerciseFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.WorkoutSessionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload> | null
+          args: Prisma.ExerciseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.WorkoutSessionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         findFirst: {
-          args: Prisma.WorkoutSessionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload> | null
+          args: Prisma.ExerciseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.WorkoutSessionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         findMany: {
-          args: Prisma.WorkoutSessionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>[]
+          args: Prisma.ExerciseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
         }
         create: {
-          args: Prisma.WorkoutSessionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         createMany: {
-          args: Prisma.WorkoutSessionCreateManyArgs<ExtArgs>
+          args: Prisma.ExerciseCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.WorkoutSessionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>[]
+          args: Prisma.ExerciseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
         }
         delete: {
-          args: Prisma.WorkoutSessionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         update: {
-          args: Prisma.WorkoutSessionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         deleteMany: {
-          args: Prisma.WorkoutSessionDeleteManyArgs<ExtArgs>
+          args: Prisma.ExerciseDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.WorkoutSessionUpdateManyArgs<ExtArgs>
+          args: Prisma.ExerciseUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.WorkoutSessionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>[]
+          args: Prisma.ExerciseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>[]
         }
         upsert: {
-          args: Prisma.WorkoutSessionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutSessionPayload>
+          args: Prisma.ExerciseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExercisePayload>
         }
         aggregate: {
-          args: Prisma.WorkoutSessionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkoutSession>
+          args: Prisma.ExerciseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExercise>
         }
         groupBy: {
-          args: Prisma.WorkoutSessionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkoutSessionGroupByOutputType>[]
+          args: Prisma.ExerciseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseGroupByOutputType>[]
         }
         count: {
-          args: Prisma.WorkoutSessionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkoutSessionCountAggregateOutputType> | number
+          args: Prisma.ExerciseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExerciseCountAggregateOutputType> | number
+        }
+      }
+    }
+    AudioTrack: {
+      payload: Prisma.$AudioTrackPayload<ExtArgs>
+      fields: Prisma.AudioTrackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AudioTrackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AudioTrackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        findFirst: {
+          args: Prisma.AudioTrackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AudioTrackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        findMany: {
+          args: Prisma.AudioTrackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>[]
+        }
+        create: {
+          args: Prisma.AudioTrackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        createMany: {
+          args: Prisma.AudioTrackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AudioTrackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>[]
+        }
+        delete: {
+          args: Prisma.AudioTrackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        update: {
+          args: Prisma.AudioTrackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        deleteMany: {
+          args: Prisma.AudioTrackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AudioTrackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AudioTrackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>[]
+        }
+        upsert: {
+          args: Prisma.AudioTrackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AudioTrackPayload>
+        }
+        aggregate: {
+          args: Prisma.AudioTrackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAudioTrack>
+        }
+        groupBy: {
+          args: Prisma.AudioTrackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AudioTrackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AudioTrackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AudioTrackCountAggregateOutputType> | number
+        }
+      }
+    }
+    RitualSession: {
+      payload: Prisma.$RitualSessionPayload<ExtArgs>
+      fields: Prisma.RitualSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RitualSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RitualSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.RitualSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RitualSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        findMany: {
+          args: Prisma.RitualSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>[]
+        }
+        create: {
+          args: Prisma.RitualSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        createMany: {
+          args: Prisma.RitualSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RitualSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.RitualSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        update: {
+          args: Prisma.RitualSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.RitualSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RitualSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RitualSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.RitualSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RitualSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.RitualSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRitualSession>
+        }
+        groupBy: {
+          args: Prisma.RitualSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RitualSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RitualSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RitualSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyStatus: {
+      payload: Prisma.$DailyStatusPayload<ExtArgs>
+      fields: Prisma.DailyStatusFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyStatusFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyStatusFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyStatusFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyStatusFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        findMany: {
+          args: Prisma.DailyStatusFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>[]
+        }
+        create: {
+          args: Prisma.DailyStatusCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        createMany: {
+          args: Prisma.DailyStatusCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyStatusCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyStatusDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        update: {
+          args: Prisma.DailyStatusUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyStatusDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyStatusUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyStatusUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyStatusUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyStatusPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyStatusAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyStatus>
+        }
+        groupBy: {
+          args: Prisma.DailyStatusGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyStatusGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyStatusCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyStatusCountAggregateOutputType> | number
+        }
+      }
+    }
+    Video: {
+      payload: Prisma.$VideoPayload<ExtArgs>
+      fields: Prisma.VideoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findFirst: {
+          args: Prisma.VideoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findMany: {
+          args: Prisma.VideoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        create: {
+          args: Prisma.VideoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        createMany: {
+          args: Prisma.VideoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        delete: {
+          args: Prisma.VideoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        update: {
+          args: Prisma.VideoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        aggregate: {
+          args: Prisma.VideoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideo>
+        }
+        groupBy: {
+          args: Prisma.VideoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCountAggregateOutputType> | number
         }
       }
     }
@@ -670,9 +1120,14 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  authProvider: 'authProvider',
+  authProviderAccountId: 'authProviderAccountId',
   displayName: 'displayName',
   avatarUrl: 'avatarUrl',
   timezone: 'timezone',
+  locale: 'locale',
+  status: 'status',
+  onboardingCompleted: 'onboardingCompleted',
   xpTotal: 'xpTotal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -681,13 +1136,50 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const UserProfileScalarFieldEnum = {
+  userId: 'userId',
+  goal: 'goal',
+  preferredTime: 'preferredTime',
+  fitnessLevel: 'fitnessLevel',
+  warmupGoal: 'warmupGoal',
+  focusAreas: 'focusAreas',
+  timeBudgetMinutes: 'timeBudgetMinutes',
+  restrictionLevel: 'restrictionLevel',
+  experiencePoints: 'experiencePoints',
+  currentLevel: 'currentLevel',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const UserProgressScalarFieldEnum = {
+  userId: 'userId',
+  level: 'level',
+  xp: 'xp',
+  streak: 'streak',
+  rankPosition: 'rankPosition',
+  totalCompletedSessions: 'totalCompletedSessions',
+  weeklyCompletedSessions: 'weeklyCompletedSessions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProgressScalarFieldEnum = (typeof UserProgressScalarFieldEnum)[keyof typeof UserProgressScalarFieldEnum]
+
+
 export const RitualScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   title: 'title',
+  type: 'type',
   description: 'description',
   durationMinutes: 'durationMinutes',
   xpReward: 'xpReward',
+  isActive: 'isActive',
   isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -696,11 +1188,42 @@ export const RitualScalarFieldEnum = {
 export type RitualScalarFieldEnum = (typeof RitualScalarFieldEnum)[keyof typeof RitualScalarFieldEnum]
 
 
-export const WorkoutSessionScalarFieldEnum = {
+export const ExerciseScalarFieldEnum = {
+  id: 'id',
+  ritualId: 'ritualId',
+  title: 'title',
+  description: 'description',
+  durationSeconds: 'durationSeconds',
+  orderIndex: 'orderIndex',
+  audioCue: 'audioCue',
+  illustrationUrl: 'illustrationUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
+
+
+export const AudioTrackScalarFieldEnum = {
+  id: 'id',
+  ritualId: 'ritualId',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  durationSeconds: 'durationSeconds',
+  language: 'language',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AudioTrackScalarFieldEnum = (typeof AudioTrackScalarFieldEnum)[keyof typeof AudioTrackScalarFieldEnum]
+
+
+export const RitualSessionScalarFieldEnum = {
   id: 'id',
   status: 'status',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
+  completedPercent: 'completedPercent',
   earnedXp: 'earnedXp',
   notes: 'notes',
   createdAt: 'createdAt',
@@ -709,7 +1232,44 @@ export const WorkoutSessionScalarFieldEnum = {
   userId: 'userId'
 } as const
 
-export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
+export type RitualSessionScalarFieldEnum = (typeof RitualSessionScalarFieldEnum)[keyof typeof RitualSessionScalarFieldEnum]
+
+
+export const DailyStatusScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  ritualType: 'ritualType',
+  status: 'status',
+  sessionId: 'sessionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyStatusScalarFieldEnum = (typeof DailyStatusScalarFieldEnum)[keyof typeof DailyStatusScalarFieldEnum]
+
+
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  durationSec: 'durationSec',
+  level: 'level',
+  type: 'type',
+  goalTags: 'goalTags',
+  focusTags: 'focusTags',
+  safetyTags: 'safetyTags',
+  contextTags: 'contextTags',
+  intensity: 'intensity',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -757,6 +1317,27 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'UserStatus'
+ */
+export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UserStatus[]'
+ */
+export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -785,23 +1366,128 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'PreferredTime'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+export type EnumPreferredTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreferredTime'>
     
 
 
 /**
- * Reference to a field of type 'WorkoutSessionStatus'
+ * Reference to a field of type 'PreferredTime[]'
  */
-export type EnumWorkoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkoutSessionStatus'>
+export type ListEnumPreferredTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PreferredTime[]'>
     
 
 
 /**
- * Reference to a field of type 'WorkoutSessionStatus[]'
+ * Reference to a field of type 'FitnessLevel'
  */
-export type ListEnumWorkoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkoutSessionStatus[]'>
+export type EnumFitnessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FitnessLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'FitnessLevel[]'
+ */
+export type ListEnumFitnessLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FitnessLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WarmupGoal'
+ */
+export type EnumWarmupGoalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WarmupGoal'>
+    
+
+
+/**
+ * Reference to a field of type 'WarmupGoal[]'
+ */
+export type ListEnumWarmupGoalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WarmupGoal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RestrictionLevel'
+ */
+export type EnumRestrictionLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RestrictionLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'RestrictionLevel[]'
+ */
+export type ListEnumRestrictionLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RestrictionLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RitualType'
+ */
+export type EnumRitualTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RitualType'>
+    
+
+
+/**
+ * Reference to a field of type 'RitualType[]'
+ */
+export type ListEnumRitualTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RitualType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RitualSessionStatus'
+ */
+export type EnumRitualSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RitualSessionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RitualSessionStatus[]'
+ */
+export type ListEnumRitualSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RitualSessionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DailyStatusType'
+ */
+export type EnumDailyStatusTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyStatusType'>
+    
+
+
+/**
+ * Reference to a field of type 'DailyStatusType[]'
+ */
+export type ListEnumDailyStatusTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DailyStatusType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoType'
+ */
+export type EnumVideoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoType'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoType[]'
+ */
+export type ListEnumVideoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoIntensity'
+ */
+export type EnumVideoIntensityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoIntensity'>
+    
+
+
+/**
+ * Reference to a field of type 'VideoIntensity[]'
+ */
+export type ListEnumVideoIntensityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VideoIntensity[]'>
     
 
 
@@ -914,8 +1600,14 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  userProfile?: Prisma.UserProfileOmit
+  userProgress?: Prisma.UserProgressOmit
   ritual?: Prisma.RitualOmit
-  workoutSession?: Prisma.WorkoutSessionOmit
+  exercise?: Prisma.ExerciseOmit
+  audioTrack?: Prisma.AudioTrackOmit
+  ritualSession?: Prisma.RitualSessionOmit
+  dailyStatus?: Prisma.DailyStatusOmit
+  video?: Prisma.VideoOmit
 }
 
 /* Types for Logging */

@@ -40,9 +40,11 @@ export type RitualMinAggregateOutputType = {
   id: string | null
   slug: string | null
   title: string | null
+  type: $Enums.RitualType | null
   description: string | null
   durationMinutes: number | null
   xpReward: number | null
+  isActive: boolean | null
   isPublished: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,9 +54,11 @@ export type RitualMaxAggregateOutputType = {
   id: string | null
   slug: string | null
   title: string | null
+  type: $Enums.RitualType | null
   description: string | null
   durationMinutes: number | null
   xpReward: number | null
+  isActive: boolean | null
   isPublished: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,9 +68,11 @@ export type RitualCountAggregateOutputType = {
   id: number
   slug: number
   title: number
+  type: number
   description: number
   durationMinutes: number
   xpReward: number
+  isActive: number
   isPublished: number
   createdAt: number
   updatedAt: number
@@ -88,9 +94,11 @@ export type RitualMinAggregateInputType = {
   id?: true
   slug?: true
   title?: true
+  type?: true
   description?: true
   durationMinutes?: true
   xpReward?: true
+  isActive?: true
   isPublished?: true
   createdAt?: true
   updatedAt?: true
@@ -100,9 +108,11 @@ export type RitualMaxAggregateInputType = {
   id?: true
   slug?: true
   title?: true
+  type?: true
   description?: true
   durationMinutes?: true
   xpReward?: true
+  isActive?: true
   isPublished?: true
   createdAt?: true
   updatedAt?: true
@@ -112,9 +122,11 @@ export type RitualCountAggregateInputType = {
   id?: true
   slug?: true
   title?: true
+  type?: true
   description?: true
   durationMinutes?: true
   xpReward?: true
+  isActive?: true
   isPublished?: true
   createdAt?: true
   updatedAt?: true
@@ -211,9 +223,11 @@ export type RitualGroupByOutputType = {
   id: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description: string | null
   durationMinutes: number
   xpReward: number
+  isActive: boolean
   isPublished: boolean
   createdAt: Date
   updatedAt: Date
@@ -246,26 +260,34 @@ export type RitualWhereInput = {
   id?: Prisma.StringFilter<"Ritual"> | string
   slug?: Prisma.StringFilter<"Ritual"> | string
   title?: Prisma.StringFilter<"Ritual"> | string
+  type?: Prisma.EnumRitualTypeFilter<"Ritual"> | $Enums.RitualType
   description?: Prisma.StringNullableFilter<"Ritual"> | string | null
   durationMinutes?: Prisma.IntFilter<"Ritual"> | number
   xpReward?: Prisma.IntFilter<"Ritual"> | number
+  isActive?: Prisma.BoolFilter<"Ritual"> | boolean
   isPublished?: Prisma.BoolFilter<"Ritual"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Ritual"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ritual"> | Date | string
-  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
+  audioTracks?: Prisma.AudioTrackListRelationFilter
+  ritualSessions?: Prisma.RitualSessionListRelationFilter
 }
 
 export type RitualOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   xpReward?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  workoutSessions?: Prisma.WorkoutSessionOrderByRelationAggregateInput
+  exercises?: Prisma.ExerciseOrderByRelationAggregateInput
+  audioTracks?: Prisma.AudioTrackOrderByRelationAggregateInput
+  ritualSessions?: Prisma.RitualSessionOrderByRelationAggregateInput
 }
 
 export type RitualWhereUniqueInput = Prisma.AtLeast<{
@@ -275,22 +297,28 @@ export type RitualWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RitualWhereInput[]
   NOT?: Prisma.RitualWhereInput | Prisma.RitualWhereInput[]
   title?: Prisma.StringFilter<"Ritual"> | string
+  type?: Prisma.EnumRitualTypeFilter<"Ritual"> | $Enums.RitualType
   description?: Prisma.StringNullableFilter<"Ritual"> | string | null
   durationMinutes?: Prisma.IntFilter<"Ritual"> | number
   xpReward?: Prisma.IntFilter<"Ritual"> | number
+  isActive?: Prisma.BoolFilter<"Ritual"> | boolean
   isPublished?: Prisma.BoolFilter<"Ritual"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Ritual"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Ritual"> | Date | string
-  workoutSessions?: Prisma.WorkoutSessionListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
+  audioTracks?: Prisma.AudioTrackListRelationFilter
+  ritualSessions?: Prisma.RitualSessionListRelationFilter
 }, "id" | "slug">
 
 export type RitualOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   xpReward?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -308,9 +336,11 @@ export type RitualScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Ritual"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Ritual"> | string
   title?: Prisma.StringWithAggregatesFilter<"Ritual"> | string
+  type?: Prisma.EnumRitualTypeWithAggregatesFilter<"Ritual"> | $Enums.RitualType
   description?: Prisma.StringNullableWithAggregatesFilter<"Ritual"> | string | null
   durationMinutes?: Prisma.IntWithAggregatesFilter<"Ritual"> | number
   xpReward?: Prisma.IntWithAggregatesFilter<"Ritual"> | number
+  isActive?: Prisma.BoolWithAggregatesFilter<"Ritual"> | boolean
   isPublished?: Prisma.BoolWithAggregatesFilter<"Ritual"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ritual"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Ritual"> | Date | string
@@ -320,61 +350,79 @@ export type RitualCreateInput = {
   id?: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description?: string | null
   durationMinutes: number
   xpReward?: number
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSessions?: Prisma.WorkoutSessionCreateNestedManyWithoutRitualInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutRitualInput
+  audioTracks?: Prisma.AudioTrackCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionCreateNestedManyWithoutRitualInput
 }
 
 export type RitualUncheckedCreateInput = {
   id?: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description?: string | null
   durationMinutes: number
   xpReward?: number
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  workoutSessions?: Prisma.WorkoutSessionUncheckedCreateNestedManyWithoutRitualInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutRitualInput
+  audioTracks?: Prisma.AudioTrackUncheckedCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionUncheckedCreateNestedManyWithoutRitualInput
 }
 
 export type RitualUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSessions?: Prisma.WorkoutSessionUpdateManyWithoutRitualNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutRitualNestedInput
+  audioTracks?: Prisma.AudioTrackUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUpdateManyWithoutRitualNestedInput
 }
 
 export type RitualUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  workoutSessions?: Prisma.WorkoutSessionUncheckedUpdateManyWithoutRitualNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutRitualNestedInput
+  audioTracks?: Prisma.AudioTrackUncheckedUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUncheckedUpdateManyWithoutRitualNestedInput
 }
 
 export type RitualCreateManyInput = {
   id?: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description?: string | null
   durationMinutes: number
   xpReward?: number
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -384,9 +432,11 @@ export type RitualUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -396,9 +446,11 @@ export type RitualUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -408,9 +460,11 @@ export type RitualCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   xpReward?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -425,9 +479,11 @@ export type RitualMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   xpReward?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -437,9 +493,11 @@ export type RitualMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   xpReward?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -455,86 +513,290 @@ export type RitualScalarRelationFilter = {
   isNot?: Prisma.RitualWhereInput
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type EnumRitualTypeFieldUpdateOperationsInput = {
+  set?: $Enums.RitualType
 }
 
-export type RitualCreateNestedOneWithoutWorkoutSessionsInput = {
-  create?: Prisma.XOR<Prisma.RitualCreateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedCreateWithoutWorkoutSessionsInput>
-  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutWorkoutSessionsInput
+export type RitualCreateNestedOneWithoutExercisesInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutExercisesInput, Prisma.RitualUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutExercisesInput
   connect?: Prisma.RitualWhereUniqueInput
 }
 
-export type RitualUpdateOneRequiredWithoutWorkoutSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.RitualCreateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedCreateWithoutWorkoutSessionsInput>
-  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutWorkoutSessionsInput
-  upsert?: Prisma.RitualUpsertWithoutWorkoutSessionsInput
+export type RitualUpdateOneRequiredWithoutExercisesNestedInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutExercisesInput, Prisma.RitualUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutExercisesInput
+  upsert?: Prisma.RitualUpsertWithoutExercisesInput
   connect?: Prisma.RitualWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.RitualUpdateToOneWithWhereWithoutWorkoutSessionsInput, Prisma.RitualUpdateWithoutWorkoutSessionsInput>, Prisma.RitualUncheckedUpdateWithoutWorkoutSessionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RitualUpdateToOneWithWhereWithoutExercisesInput, Prisma.RitualUpdateWithoutExercisesInput>, Prisma.RitualUncheckedUpdateWithoutExercisesInput>
 }
 
-export type RitualCreateWithoutWorkoutSessionsInput = {
+export type RitualCreateNestedOneWithoutAudioTracksInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutAudioTracksInput, Prisma.RitualUncheckedCreateWithoutAudioTracksInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutAudioTracksInput
+  connect?: Prisma.RitualWhereUniqueInput
+}
+
+export type RitualUpdateOneRequiredWithoutAudioTracksNestedInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutAudioTracksInput, Prisma.RitualUncheckedCreateWithoutAudioTracksInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutAudioTracksInput
+  upsert?: Prisma.RitualUpsertWithoutAudioTracksInput
+  connect?: Prisma.RitualWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RitualUpdateToOneWithWhereWithoutAudioTracksInput, Prisma.RitualUpdateWithoutAudioTracksInput>, Prisma.RitualUncheckedUpdateWithoutAudioTracksInput>
+}
+
+export type RitualCreateNestedOneWithoutRitualSessionsInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutRitualSessionsInput, Prisma.RitualUncheckedCreateWithoutRitualSessionsInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutRitualSessionsInput
+  connect?: Prisma.RitualWhereUniqueInput
+}
+
+export type RitualUpdateOneRequiredWithoutRitualSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.RitualCreateWithoutRitualSessionsInput, Prisma.RitualUncheckedCreateWithoutRitualSessionsInput>
+  connectOrCreate?: Prisma.RitualCreateOrConnectWithoutRitualSessionsInput
+  upsert?: Prisma.RitualUpsertWithoutRitualSessionsInput
+  connect?: Prisma.RitualWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RitualUpdateToOneWithWhereWithoutRitualSessionsInput, Prisma.RitualUpdateWithoutRitualSessionsInput>, Prisma.RitualUncheckedUpdateWithoutRitualSessionsInput>
+}
+
+export type RitualCreateWithoutExercisesInput = {
   id?: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description?: string | null
   durationMinutes: number
   xpReward?: number
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  audioTracks?: Prisma.AudioTrackCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionCreateNestedManyWithoutRitualInput
 }
 
-export type RitualUncheckedCreateWithoutWorkoutSessionsInput = {
+export type RitualUncheckedCreateWithoutExercisesInput = {
   id?: string
   slug: string
   title: string
+  type: $Enums.RitualType
   description?: string | null
   durationMinutes: number
   xpReward?: number
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  audioTracks?: Prisma.AudioTrackUncheckedCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionUncheckedCreateNestedManyWithoutRitualInput
 }
 
-export type RitualCreateOrConnectWithoutWorkoutSessionsInput = {
+export type RitualCreateOrConnectWithoutExercisesInput = {
   where: Prisma.RitualWhereUniqueInput
-  create: Prisma.XOR<Prisma.RitualCreateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedCreateWithoutWorkoutSessionsInput>
+  create: Prisma.XOR<Prisma.RitualCreateWithoutExercisesInput, Prisma.RitualUncheckedCreateWithoutExercisesInput>
 }
 
-export type RitualUpsertWithoutWorkoutSessionsInput = {
-  update: Prisma.XOR<Prisma.RitualUpdateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedUpdateWithoutWorkoutSessionsInput>
-  create: Prisma.XOR<Prisma.RitualCreateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedCreateWithoutWorkoutSessionsInput>
+export type RitualUpsertWithoutExercisesInput = {
+  update: Prisma.XOR<Prisma.RitualUpdateWithoutExercisesInput, Prisma.RitualUncheckedUpdateWithoutExercisesInput>
+  create: Prisma.XOR<Prisma.RitualCreateWithoutExercisesInput, Prisma.RitualUncheckedCreateWithoutExercisesInput>
   where?: Prisma.RitualWhereInput
 }
 
-export type RitualUpdateToOneWithWhereWithoutWorkoutSessionsInput = {
+export type RitualUpdateToOneWithWhereWithoutExercisesInput = {
   where?: Prisma.RitualWhereInput
-  data: Prisma.XOR<Prisma.RitualUpdateWithoutWorkoutSessionsInput, Prisma.RitualUncheckedUpdateWithoutWorkoutSessionsInput>
+  data: Prisma.XOR<Prisma.RitualUpdateWithoutExercisesInput, Prisma.RitualUncheckedUpdateWithoutExercisesInput>
 }
 
-export type RitualUpdateWithoutWorkoutSessionsInput = {
+export type RitualUpdateWithoutExercisesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  audioTracks?: Prisma.AudioTrackUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUpdateManyWithoutRitualNestedInput
 }
 
-export type RitualUncheckedUpdateWithoutWorkoutSessionsInput = {
+export type RitualUncheckedUpdateWithoutExercisesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  audioTracks?: Prisma.AudioTrackUncheckedUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUncheckedUpdateManyWithoutRitualNestedInput
+}
+
+export type RitualCreateWithoutAudioTracksInput = {
+  id?: string
+  slug: string
+  title: string
+  type: $Enums.RitualType
+  description?: string | null
+  durationMinutes: number
+  xpReward?: number
+  isActive?: boolean
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionCreateNestedManyWithoutRitualInput
+}
+
+export type RitualUncheckedCreateWithoutAudioTracksInput = {
+  id?: string
+  slug: string
+  title: string
+  type: $Enums.RitualType
+  description?: string | null
+  durationMinutes: number
+  xpReward?: number
+  isActive?: boolean
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutRitualInput
+  ritualSessions?: Prisma.RitualSessionUncheckedCreateNestedManyWithoutRitualInput
+}
+
+export type RitualCreateOrConnectWithoutAudioTracksInput = {
+  where: Prisma.RitualWhereUniqueInput
+  create: Prisma.XOR<Prisma.RitualCreateWithoutAudioTracksInput, Prisma.RitualUncheckedCreateWithoutAudioTracksInput>
+}
+
+export type RitualUpsertWithoutAudioTracksInput = {
+  update: Prisma.XOR<Prisma.RitualUpdateWithoutAudioTracksInput, Prisma.RitualUncheckedUpdateWithoutAudioTracksInput>
+  create: Prisma.XOR<Prisma.RitualCreateWithoutAudioTracksInput, Prisma.RitualUncheckedCreateWithoutAudioTracksInput>
+  where?: Prisma.RitualWhereInput
+}
+
+export type RitualUpdateToOneWithWhereWithoutAudioTracksInput = {
+  where?: Prisma.RitualWhereInput
+  data: Prisma.XOR<Prisma.RitualUpdateWithoutAudioTracksInput, Prisma.RitualUncheckedUpdateWithoutAudioTracksInput>
+}
+
+export type RitualUpdateWithoutAudioTracksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUpdateManyWithoutRitualNestedInput
+}
+
+export type RitualUncheckedUpdateWithoutAudioTracksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutRitualNestedInput
+  ritualSessions?: Prisma.RitualSessionUncheckedUpdateManyWithoutRitualNestedInput
+}
+
+export type RitualCreateWithoutRitualSessionsInput = {
+  id?: string
+  slug: string
+  title: string
+  type: $Enums.RitualType
+  description?: string | null
+  durationMinutes: number
+  xpReward?: number
+  isActive?: boolean
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutRitualInput
+  audioTracks?: Prisma.AudioTrackCreateNestedManyWithoutRitualInput
+}
+
+export type RitualUncheckedCreateWithoutRitualSessionsInput = {
+  id?: string
+  slug: string
+  title: string
+  type: $Enums.RitualType
+  description?: string | null
+  durationMinutes: number
+  xpReward?: number
+  isActive?: boolean
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutRitualInput
+  audioTracks?: Prisma.AudioTrackUncheckedCreateNestedManyWithoutRitualInput
+}
+
+export type RitualCreateOrConnectWithoutRitualSessionsInput = {
+  where: Prisma.RitualWhereUniqueInput
+  create: Prisma.XOR<Prisma.RitualCreateWithoutRitualSessionsInput, Prisma.RitualUncheckedCreateWithoutRitualSessionsInput>
+}
+
+export type RitualUpsertWithoutRitualSessionsInput = {
+  update: Prisma.XOR<Prisma.RitualUpdateWithoutRitualSessionsInput, Prisma.RitualUncheckedUpdateWithoutRitualSessionsInput>
+  create: Prisma.XOR<Prisma.RitualCreateWithoutRitualSessionsInput, Prisma.RitualUncheckedCreateWithoutRitualSessionsInput>
+  where?: Prisma.RitualWhereInput
+}
+
+export type RitualUpdateToOneWithWhereWithoutRitualSessionsInput = {
+  where?: Prisma.RitualWhereInput
+  data: Prisma.XOR<Prisma.RitualUpdateWithoutRitualSessionsInput, Prisma.RitualUncheckedUpdateWithoutRitualSessionsInput>
+}
+
+export type RitualUpdateWithoutRitualSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUpdateManyWithoutRitualNestedInput
+  audioTracks?: Prisma.AudioTrackUpdateManyWithoutRitualNestedInput
+}
+
+export type RitualUncheckedUpdateWithoutRitualSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumRitualTypeFieldUpdateOperationsInput | $Enums.RitualType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutRitualNestedInput
+  audioTracks?: Prisma.AudioTrackUncheckedUpdateManyWithoutRitualNestedInput
 }
 
 
@@ -543,11 +805,15 @@ export type RitualUncheckedUpdateWithoutWorkoutSessionsInput = {
  */
 
 export type RitualCountOutputType = {
-  workoutSessions: number
+  exercises: number
+  audioTracks: number
+  ritualSessions: number
 }
 
 export type RitualCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  workoutSessions?: boolean | RitualCountOutputTypeCountWorkoutSessionsArgs
+  exercises?: boolean | RitualCountOutputTypeCountExercisesArgs
+  audioTracks?: boolean | RitualCountOutputTypeCountAudioTracksArgs
+  ritualSessions?: boolean | RitualCountOutputTypeCountRitualSessionsArgs
 }
 
 /**
@@ -563,8 +829,22 @@ export type RitualCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * RitualCountOutputType without action
  */
-export type RitualCountOutputTypeCountWorkoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkoutSessionWhereInput
+export type RitualCountOutputTypeCountExercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExerciseWhereInput
+}
+
+/**
+ * RitualCountOutputType without action
+ */
+export type RitualCountOutputTypeCountAudioTracksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AudioTrackWhereInput
+}
+
+/**
+ * RitualCountOutputType without action
+ */
+export type RitualCountOutputTypeCountRitualSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RitualSessionWhereInput
 }
 
 
@@ -572,13 +852,17 @@ export type RitualSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   slug?: boolean
   title?: boolean
+  type?: boolean
   description?: boolean
   durationMinutes?: boolean
   xpReward?: boolean
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  workoutSessions?: boolean | Prisma.Ritual$workoutSessionsArgs<ExtArgs>
+  exercises?: boolean | Prisma.Ritual$exercisesArgs<ExtArgs>
+  audioTracks?: boolean | Prisma.Ritual$audioTracksArgs<ExtArgs>
+  ritualSessions?: boolean | Prisma.Ritual$ritualSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.RitualCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ritual"]>
 
@@ -586,9 +870,11 @@ export type RitualSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   slug?: boolean
   title?: boolean
+  type?: boolean
   description?: boolean
   durationMinutes?: boolean
   xpReward?: boolean
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -598,9 +884,11 @@ export type RitualSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   slug?: boolean
   title?: boolean
+  type?: boolean
   description?: boolean
   durationMinutes?: boolean
   xpReward?: boolean
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -610,17 +898,21 @@ export type RitualSelectScalar = {
   id?: boolean
   slug?: boolean
   title?: boolean
+  type?: boolean
   description?: boolean
   durationMinutes?: boolean
   xpReward?: boolean
+  isActive?: boolean
   isPublished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RitualOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "durationMinutes" | "xpReward" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["ritual"]>
+export type RitualOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "type" | "description" | "durationMinutes" | "xpReward" | "isActive" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["ritual"]>
 export type RitualInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  workoutSessions?: boolean | Prisma.Ritual$workoutSessionsArgs<ExtArgs>
+  exercises?: boolean | Prisma.Ritual$exercisesArgs<ExtArgs>
+  audioTracks?: boolean | Prisma.Ritual$audioTracksArgs<ExtArgs>
+  ritualSessions?: boolean | Prisma.Ritual$ritualSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.RitualCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RitualIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -629,15 +921,19 @@ export type RitualIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $RitualPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ritual"
   objects: {
-    workoutSessions: Prisma.$WorkoutSessionPayload<ExtArgs>[]
+    exercises: Prisma.$ExercisePayload<ExtArgs>[]
+    audioTracks: Prisma.$AudioTrackPayload<ExtArgs>[]
+    ritualSessions: Prisma.$RitualSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     slug: string
     title: string
+    type: $Enums.RitualType
     description: string | null
     durationMinutes: number
     xpReward: number
+    isActive: boolean
     isPublished: boolean
     createdAt: Date
     updatedAt: Date
@@ -1035,7 +1331,9 @@ readonly fields: RitualFieldRefs;
  */
 export interface Prisma__RitualClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  workoutSessions<T extends Prisma.Ritual$workoutSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ritual$workoutSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkoutSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  exercises<T extends Prisma.Ritual$exercisesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ritual$exercisesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  audioTracks<T extends Prisma.Ritual$audioTracksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ritual$audioTracksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AudioTrackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ritualSessions<T extends Prisma.Ritual$ritualSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ritual$ritualSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RitualSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1068,9 +1366,11 @@ export interface RitualFieldRefs {
   readonly id: Prisma.FieldRef<"Ritual", 'String'>
   readonly slug: Prisma.FieldRef<"Ritual", 'String'>
   readonly title: Prisma.FieldRef<"Ritual", 'String'>
+  readonly type: Prisma.FieldRef<"Ritual", 'RitualType'>
   readonly description: Prisma.FieldRef<"Ritual", 'String'>
   readonly durationMinutes: Prisma.FieldRef<"Ritual", 'Int'>
   readonly xpReward: Prisma.FieldRef<"Ritual", 'Int'>
+  readonly isActive: Prisma.FieldRef<"Ritual", 'Boolean'>
   readonly isPublished: Prisma.FieldRef<"Ritual", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Ritual", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Ritual", 'DateTime'>
@@ -1467,27 +1767,75 @@ export type RitualDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Ritual.workoutSessions
+ * Ritual.exercises
  */
-export type Ritual$workoutSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Ritual$exercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the WorkoutSession
+   * Select specific fields to fetch from the Exercise
    */
-  select?: Prisma.WorkoutSessionSelect<ExtArgs> | null
+  select?: Prisma.ExerciseSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the WorkoutSession
+   * Omit specific fields from the Exercise
    */
-  omit?: Prisma.WorkoutSessionOmit<ExtArgs> | null
+  omit?: Prisma.ExerciseOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.WorkoutSessionInclude<ExtArgs> | null
-  where?: Prisma.WorkoutSessionWhereInput
-  orderBy?: Prisma.WorkoutSessionOrderByWithRelationInput | Prisma.WorkoutSessionOrderByWithRelationInput[]
-  cursor?: Prisma.WorkoutSessionWhereUniqueInput
+  include?: Prisma.ExerciseInclude<ExtArgs> | null
+  where?: Prisma.ExerciseWhereInput
+  orderBy?: Prisma.ExerciseOrderByWithRelationInput | Prisma.ExerciseOrderByWithRelationInput[]
+  cursor?: Prisma.ExerciseWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.WorkoutSessionScalarFieldEnum | Prisma.WorkoutSessionScalarFieldEnum[]
+  distinct?: Prisma.ExerciseScalarFieldEnum | Prisma.ExerciseScalarFieldEnum[]
+}
+
+/**
+ * Ritual.audioTracks
+ */
+export type Ritual$audioTracksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AudioTrack
+   */
+  select?: Prisma.AudioTrackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AudioTrack
+   */
+  omit?: Prisma.AudioTrackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AudioTrackInclude<ExtArgs> | null
+  where?: Prisma.AudioTrackWhereInput
+  orderBy?: Prisma.AudioTrackOrderByWithRelationInput | Prisma.AudioTrackOrderByWithRelationInput[]
+  cursor?: Prisma.AudioTrackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AudioTrackScalarFieldEnum | Prisma.AudioTrackScalarFieldEnum[]
+}
+
+/**
+ * Ritual.ritualSessions
+ */
+export type Ritual$ritualSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RitualSession
+   */
+  select?: Prisma.RitualSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RitualSession
+   */
+  omit?: Prisma.RitualSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RitualSessionInclude<ExtArgs> | null
+  where?: Prisma.RitualSessionWhereInput
+  orderBy?: Prisma.RitualSessionOrderByWithRelationInput | Prisma.RitualSessionOrderByWithRelationInput[]
+  cursor?: Prisma.RitualSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RitualSessionScalarFieldEnum | Prisma.RitualSessionScalarFieldEnum[]
 }
 
 /**
