@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createAdminVideo, updateAdminVideo } from "@/app/actions";
 import { MobileVideoLibrary } from "@/app/admin/videos/mobile-video-library";
 import { Input } from "@/components/ui/input";
-import { getAuthSession, isAdminUser } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   buildVideoMeta,
@@ -28,10 +28,6 @@ export default async function AdminVideosPage({ searchParams }: AdminVideosPageP
   const session = await getAuthSession();
   if (!session?.user?.id) {
     redirect("/auth");
-  }
-
-  if (!isAdminUser(session.user.id)) {
-    redirect("/");
   }
 
   const [params, videos] = await Promise.all([

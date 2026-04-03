@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { completeSessionForCurrentUser, startSessionForCurrentUser } from "@/lib/bodyritual-data";
-import { getAuthSession, isAdminUser } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { fetchVkVideoMetadata } from "@/lib/vk-video";
 import { parseSurveyFormData, videoContextTagOptions, videoIntensityOptions, videoSafetyTagOptions, videoTypeOptions } from "@/lib/video-recommendation";
@@ -104,10 +104,6 @@ async function requireAdminUser() {
   const session = await getAuthSession();
   if (!session?.user?.id) {
     redirect("/auth");
-  }
-
-  if (!isAdminUser(session.user.id)) {
-    throw new Error("Admin access required.");
   }
 
   return session.user.id;

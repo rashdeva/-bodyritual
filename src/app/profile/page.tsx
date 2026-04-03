@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { DataEmptyState } from "@/components/bodyritual/data-empty-state";
 import { getProfileViewModel } from "@/lib/bodyritual-data";
-import { getAuthSession, isAdminUser } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { shouldUnoptimizeImage } from "@/lib/image-utils";
 
 export default async function ProfilePage() {
@@ -14,8 +14,6 @@ export default async function ProfilePage() {
   if (!session?.user?.id) {
     redirect("/auth");
   }
-
-  const adminUser = isAdminUser(session.user.id);
 
   const data = await getProfileViewModel(session.user.id);
 
@@ -40,14 +38,12 @@ export default async function ProfilePage() {
             Назад
           </Link>
           <div className="flex items-center gap-3">
-            {adminUser ? (
-              <Link
-                href="/admin/videos"
-                className="rounded-full border border-stone-200 bg-white/75 px-4 py-2 text-sm text-stone-700 shadow-sm backdrop-blur"
-              >
-                Админка
-              </Link>
-            ) : null}
+            <Link
+              href="/admin/videos"
+              className="rounded-full border border-stone-200 bg-white/75 px-4 py-2 text-sm text-stone-700 shadow-sm backdrop-blur"
+            >
+              Админка
+            </Link>
             <Link
               href="/onboarding"
               className="rounded-full border border-stone-200 bg-white/75 px-4 py-2 text-sm text-stone-700 shadow-sm backdrop-blur"
