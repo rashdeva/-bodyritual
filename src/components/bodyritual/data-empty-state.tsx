@@ -4,6 +4,7 @@ export function DataEmptyState({
   title,
   description,
   adminHref,
+  adminUser,
   fallbackVideoUrl,
   fallbackVideoEmbedUrl,
   fallbackVideoTitle,
@@ -11,6 +12,7 @@ export function DataEmptyState({
   title: string;
   description: string;
   adminHref?: string;
+  adminUser?: boolean;
   fallbackVideoUrl?: string;
   fallbackVideoEmbedUrl?: string | null;
   fallbackVideoTitle?: string;
@@ -35,8 +37,8 @@ export function DataEmptyState({
           </div>
         ) : null}
         <div className="mt-8 flex flex-wrap gap-3">
-          {adminHref ? (
-            <Link href={adminHref} className="rounded-full border border-stone-200 bg-white/80 px-6 py-3 text-sm font-medium text-stone-800">
+          {adminUser ? (
+            <Link href={adminHref || ''} className="rounded-full border border-stone-200 bg-white/80 px-6 py-3 text-sm font-medium text-stone-800">
               Админка
             </Link>
           ) : null}

@@ -38,6 +38,8 @@ export function HomeExperience({ data }: { data: HomeViewModel }) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showFeaturedVideo, setShowFeaturedVideo] = useState(false);
 
+  
+
   const totalSeconds = useMemo(
     () => (data.ritual?.exercises ?? []).reduce((sum, exercise) => sum + exercise.durationSeconds, 0),
     [data.ritual?.exercises],

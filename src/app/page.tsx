@@ -33,6 +33,7 @@ export default async function HomePage() {
         title="В базе пока не хватает данных для главного экрана"
         description="Для video-first главной нужен хотя бы один опубликованный video в Postgres. Пока подборка пуста, можно открыть резервное видео."
         adminHref={adminUser ? "/admin/videos" : undefined}
+        adminUser={adminUser}
         fallbackVideoUrl={HOME_FALLBACK_VIDEO_URL}
         fallbackVideoEmbedUrl={buildVkVideoEmbedUrl(HOME_FALLBACK_VIDEO_URL)}
         fallbackVideoTitle="Резервное видео для главного экрана"
