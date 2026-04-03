@@ -256,24 +256,45 @@ export async function getRecommendationProfile(userId: string): Promise<Recommen
 }
 
 export async function getTopRecommendedVideos(profile: RecommendationProfile, limit = 3): Promise<RecommendedVideo[]> {
-  if (!hasCompletedRecommendationProfile(profile)) {
-    return [];
-  }
-
   const videos = await db.video.findMany({
     where: { isPublished: true },
     orderBy: [{ createdAt: "desc" }],
   });
 
-  return videos
+  if (!hasCompletedRecommendationProfile(profile)) {
+    return videos.slice(0, limit).map((video) => ({
+      id: video.id,
+      slug: video.slug,
+      title: video.title,
+      description: video.description ?? "Видео доступно на главной странице.",
+      durationSec: video.durationSec,
+      level: video.level,
+      type: video.type,
+      intensity: video.intensity,
+      videoUrl: video.videoUrl,
+      thumbnailUrl: video.thumbnailUrl,
+      goalTags: video.goalTags,
+      focusTags: video.focusTags,
+      safetyTags: video.safetyTags,
+      contextTags: video.contextTags,
+      score: 0,
+    }));
+  }
+
+  const rankedVideos = videos
     .map((video) => ({
       ...video,
       score: scoreVideo(profile, video),
     }))
     .filter((video) => Number.isFinite(video.score) && video.score > 0)
-    .sort((a, b) => b.score - a.score || a.durationSec - b.durationSec)
-    .slice(0, limit)
-    .map((video) => ({
+    .sort((a, b) => b.score - a.score || a.durationSec - b.durationSec);
+
+  const selectedVideos = (rankedVideos.length > 0 ? rankedVideos : videos).slice(0, limit);
+
+  return selectedVideos.map((video) => {
+    const score = "score" in video ? Number(video.score) : 0;
+
+    return {
       id: video.id,
       slug: video.slug,
       title: video.title,
@@ -288,8 +309,9 @@ export async function getTopRecommendedVideos(profile: RecommendationProfile, li
       focusTags: video.focusTags,
       safetyTags: video.safetyTags,
       contextTags: video.contextTags,
-      score: video.score,
-    }));
+      score,
+    };
+  });
 }
 
 export function parseSurveyFormData(formData: FormData) {

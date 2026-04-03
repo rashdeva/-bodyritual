@@ -372,10 +372,6 @@ export async function getHomeViewModel(userId: string): Promise<HomeViewModel | 
 
   const activeRitual = ritual && ritual.exercises.length > 0 ? ritual : null;
 
-  if (!activeRitual && recommendations.length === 0) {
-    return null;
-  }
-
   const positions = buildCloudPositions(Math.min(leaderboard.length, 12));
 
   return {
@@ -396,7 +392,9 @@ export async function getHomeViewModel(userId: string): Promise<HomeViewModel | 
         ? "Сегодняшняя активность уже завершена. Можно посмотреть результат."
         : recommendations.length > 0
           ? "Подобрали видео под твой профиль. Можно включать сразу."
-          : "Твой ритуал уже готов. Один тап и зарядка начнётся.",
+          : activeRitual
+            ? "Твой ритуал уже готов. Один тап и зарядка начнётся."
+            : "На главной показываем опубликованные видео, даже если подбор ещё пустой.",
     ritual: activeRitual
       ? {
           id: activeRitual.id,
